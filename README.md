@@ -29,3 +29,24 @@ python application.py
 選labrole、vockey跟lab...
 然後之後上傳打包的zip到deploy就可以了
 ```
+
+# 413解決方法
+
+先登入ec2
+```
+用ppk檔登入putty
+user:ec2-user
+```
+```
+cd ..
+cd ..
+cd etc
+cd nginx
+sudo nano nginx.conf
+加上client_max_body_size 20M;
+cd ..
+cd ..
+cd sbin
+sudo nginx -s reload
+```
+
