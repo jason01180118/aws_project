@@ -8,7 +8,7 @@ virtualenv virt
 Set-ExecutionPolicy Unrestricted -Scope Process
 .\virt\Scripts\activate.ps1
 ```
-## 安裝套件
+## 安裝套件(會看到(virt)在前面)
 ```
 pip install -r requirements.txt 
 python application.py
