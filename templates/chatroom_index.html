@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;background-color: #373737;">
+
+<head>
+    <title>Flask_Chat_App</title>
+    <style>
+        .circle {
+            width: 100%;
+            height: 100%;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+
+<body style="height:100vh;">
+    <div style="width:100%; height:100%;">
+        <div style="width:100%; height:25%;display: flex;justify-content: center;">
+            <div style="width:60%; height:100%;display: flex;justify-content: center;align-items:center;">
+                <p style=" font-size: 72px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
+                        style="color: #F6BB75">Z</span><span style="color: #F4F675">H</span><span
+                        style="color: #75F6F6">F</span> MEET</p>
+                <p style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
+                        style="color: #F6BB75">Z</span>ERO<br><span style="color: #F4F675">H</span>OME<br><span
+                        style="color: #75F6F6">F</span>ISH</p>
+            </div>
+        </div>
+
+        <div style="width:100%; height:65%;display: flex;justify-content: center;">
+            <div style="width:50%; height:100%;background-color: #000000;border-radius: 30px;">
+                <div style="width:100%; height:12%;display: flex;justify-content: center;">
+                    <div style="width:90%; height:100%;display: flex;align-items: center;">
+                        <div class="circle" style="width:15px; height:15px; background: #F6BB75;margin: 1%;"></div>
+                        <div class="circle" style="width:15px; height:15px; background:#F4F675;margin: 1%;"></div>
+                        <div class="circle" style="width:15px; height:15px; background: #75F6F6;margin: 1%;"></div>
+                    </div>
+                </div>
+                <div style="width:100%; height:88%;display: flex;justify-content: center;align-content: center;">
+                    <form action="" method="POST">
+                        <p style="font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
+                            透過會議代碼加入會議室</p>
+                        <div style="width:100%; height:10%;display: flex;justify-content: center;">
+                            <input
+                                style="width:50%; height:100%;border-radius: 10px;font-size: 16px;font-family:inter;background-color:#D9D9D9;color: #5C5C5C;text-align:center;font-weight: 700;"
+                                type="text" class="roomname" placeholder="ROOM ID / NAME" />
+                        </div>
+
+
+                        <p style="font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
+                            建立新會議室</p>
+                        <div style="width:100%; height:11%;display: flex;justify-content: center;">
+                            <button
+                                style="width:50%; height:100%;border-radius: 10px;background-color:#FFC645 ;font-size: 16px;font-family:inter;color: #5C5C5C;text-align:center;font-weight: 700;">
+                                CREATEROOM
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+
+</html>

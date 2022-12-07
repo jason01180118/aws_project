@@ -15,6 +15,10 @@ def chat_room():
     return render_template("chatroom.html")
 
 
+def chat_index():
+    return render_template("chatroom_index.html")
+
+
 def upload_file():
     if request.method == 'POST':
         if 'file1' not in request.files:
@@ -31,6 +35,7 @@ def upload_file():
       <input type="submit">
     </form>
     '''
+
 
 def video_chat_room():
     return render_template("videochatroom.html")

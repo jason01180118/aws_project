@@ -9,44 +9,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
         integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script type="text/javascript">
-        var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-        socket.on('connect', function () {
-            socket.emit('my event', {
-                data: 'User Connected'
-            })
-            var form = $('form').on('submit', function (e) {
-                e.preventDefault()
-                let user_name = $('input.username').val()
-                let user_input = $('input.message').val()
-                socket.emit('my event', {
-                    user_name: user_name,
-                    message: user_input
-                })
-                $('input.message').val('').focus()
-            })
-        })
-        socket.on('my response', function (msg) {
-            console.log(msg)
-            if (typeof msg.user_name !== 'undefined') {
-                $('h3').remove()
-                $('div.message_holder').append('<div><b style="color: #000">' + msg.user_name + '</b> ' + msg.message + '</div>')
-            }
-        })
-    </script>
+    <script src="{{url_for('static', filename='chatSocket.js')}}"></script>
+    <script type="text/javascript">chatSocket();</script>
 </head>
 
 <body>
+    <div style='width:100%; height:100vh;'>
+        <div style='width:50%; height:50%;'>
+            <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
+            <div style='width:25%; height:25%;' class="message_holder"></div>
+        </div>
 
-    <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-    <div class="message_holder"></div>
+        <div style='width:50%; height:50%;'>
+            <form action="" method="POST">
+                <input type="text" class="username" placeholder="User Name" />
+                <input type="text" class="message" placeholder="Messages" />
+                <input type="submit" />
+            </form>
+        </div>
 
-    <form action="" method="POST">
-        <input type="text" class="username" placeholder="User Name" />
-        <input type="text" class="message" placeholder="Messages" />
-        <input type="submit" />
-    </form>
+    </div>
 </body>
 
 

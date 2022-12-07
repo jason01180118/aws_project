@@ -1,8 +1,7 @@
-from crypt import methods
 from flask import Flask
 import os
 import time
-from router import index, sayhello, upload_file, chat_room, video_chat_room
+from router import index, sayhello, upload_file, chat_room, video_chat_room, chat_index
 from flask_socketio import SocketIO
 
 # EB looks for an 'application' callable by default.
@@ -13,7 +12,11 @@ socketio = SocketIO(application, cors_allowed_origins="*")
 application.add_url_rule(
     '/image', 'image', upload_file, methods=['GET', 'POST'])
 
-application.add_url_rule('/chat', 'chat', chat_room, methods=['GET', 'POST'])
+application.add_url_rule('/chatindex/chat', 'chat',
+                         chat_room, methods=['GET', 'POST'])
+
+application.add_url_rule('/chatindex', 'chatindex',
+                         chat_index, methods=['GET', 'POST'])
 
 application.add_url_rule('/', 'index', index)
 
