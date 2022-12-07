@@ -1,7 +1,8 @@
+from crypt import methods
 from flask import Flask
 import os
 import time
-from router import index, sayhello, upload_file, chat_room
+from router import index, sayhello, upload_file, chat_room, video_chat_room
 from flask_socketio import SocketIO
 
 # EB looks for an 'application' callable by default.
@@ -18,6 +19,9 @@ application.add_url_rule('/', 'index', index)
 
 application.add_url_rule('/<username>', 'hello',
                          (lambda username: sayhello(username)))
+
+application.add_url_rule(
+    '/video_chat', video_chat_room, methods=['GET', 'POST'])
 
 
 def messageReceived(methods=['GET', 'POST']):
