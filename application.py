@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask
 import os
 import time
@@ -18,6 +19,9 @@ application.add_url_rule('/', 'index', index)
 
 application.add_url_rule('/<username>', 'hello',
                          (lambda username: sayhello(username)))
+
+application.add_url_rule(
+    '/video_chat', vedio_chat_room, methods=['GET', 'POST'])
 
 
 def messageReceived(methods=['GET', 'POST']):

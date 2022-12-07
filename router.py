@@ -31,3 +31,6 @@ def upload_file():
       <input type="submit">
     </form>
     '''
+
+def video_chat_room():
+    return render_template("videochatroom.html")
