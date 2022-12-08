@@ -23,6 +23,10 @@ def chat_index():
     return render_template("chatroom_index.html")
 
 
+def video_room(room):
+    return render_template("video_room.html")
+
+
 def upload_file():
     if request.method == 'POST':
         if 'file1' not in request.files:

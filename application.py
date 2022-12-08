@@ -1,7 +1,7 @@
 from flask import Flask
 import os
 import time
-from router import index, sayhello, upload_file, chat_room, video_chat_room, chat_index
+from router import index, sayhello, upload_file, chat_room, video_chat_room, chat_index, video_room
 from flask_socketio import SocketIO
 
 # EB looks for an 'application' callable by default.
@@ -17,6 +17,9 @@ application.add_url_rule('/chatroom/<room>', 'chat',
 
 application.add_url_rule('/chatindex', 'chatindex',
                          chat_index, methods=['GET', 'POST'])
+
+application.add_url_rule('/videoroom/<room>', 'videoroom',
+                         video_room, methods=['GET', 'POST'])
 
 application.add_url_rule('/', 'index', index)
 
@@ -35,7 +38,6 @@ def messageReceived(methods=['GET', 'POST']):
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
-
 
 
 if __name__ == '__main__':
