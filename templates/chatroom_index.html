@@ -3,6 +3,7 @@
 
 <head>
     <title>Flask_Chat_App</title>
+    <meta charset="UTF-8">
     <style>
         .circle {
             width: 100%;
@@ -12,7 +13,16 @@
             border-radius: 50px;
         }
     </style>
-    <script src="./static/chatNavigate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Socket.IO 的 CDN 連結 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
+        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="{{ url_for('static', filename='chatNavigate.js')}}"></script>
 </head>
 
 <body style="height:100vh;">
@@ -22,7 +32,7 @@
                 <p style=" font-size: 72px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
                         style="color: #F6BB75">Z</span><span style="color: #F4F675">H</span><span
                         style="color: #75F6F6">F</span> MEET</p>
-                <p style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
+                <p style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900; line-height: 0.83"><span
                         style="color: #F6BB75">Z</span>ERO<br><span style="color: #F4F675">H</span>OME<br><span
                         style="color: #75F6F6">F</span>ISH</p>
             </div>
@@ -48,8 +58,6 @@
                                     type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
                             </form>
                         </div>
-
-
                         <p style="font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
                             建立新會議室</p>
                         <div style="width:100%; height:11%;display: flex;justify-content: center;">
@@ -65,7 +73,6 @@
             </div>
 
         </div>
-
     </div>
 </body>
 
