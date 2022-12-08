@@ -12,7 +12,7 @@ socketio = SocketIO(application, cors_allowed_origins="*")
 application.add_url_rule(
     '/image', 'image', upload_file, methods=['GET', 'POST'])
 
-application.add_url_rule('/chatindex/chat', 'chat',
+application.add_url_rule('/chatroom/<room>', 'chat',
                          chat_room, methods=['GET', 'POST'])
 
 application.add_url_rule('/chatindex', 'chatindex',

@@ -1,6 +1,5 @@
 function chatSocket() {
     var socket = io.connect('http://' + document.domain + ':' + location.port);
-
     socket.on('connect', function () {
         socket.emit('my event', {
             data: 'User Connected'
@@ -9,16 +8,18 @@ function chatSocket() {
             e.preventDefault()
             let user_name = $('input.username').val()
             let user_input = $('input.message').val()
+            let user_room = location.pathname
             socket.emit('my event', {
                 user_name: user_name,
-                message: user_input
+                message: user_input,
+                room: user_room
             })
             $('input.message').val('').focus()
         })
     })
     socket.on('my response', function (msg) {
         console.log(msg)
-        if (typeof msg.user_name !== 'undefined') {
+        if (typeof msg.user_name !== 'undefined' && msg.room === location.pathname) {
             $('h3').remove()
             $('div.message_holder').append('<div><b style="color: #000">' + msg.user_name + '</b> ' + msg.message + '</div>')
         }

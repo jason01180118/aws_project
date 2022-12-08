@@ -1,5 +1,5 @@
 from detect_image import detect_one_label
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 
 def index():
@@ -11,11 +11,14 @@ def sayhello(username):
     return render_template("sayhello.html", username=username)
 
 
-def chat_room():
+def chat_room(room):
     return render_template("chatroom.html")
 
 
 def chat_index():
+    if request.method == 'POST':
+        # redirect('/chatroom/'+request.values.get('room'))
+        return render_template("chatroom_added.html", room=request.values.get('room'))
     return render_template("chatroom_index.html")
 
 
