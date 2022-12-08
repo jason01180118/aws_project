@@ -1,5 +1,6 @@
 from detect_image import detect_one_label
 from flask import Flask, render_template, request, redirect
+from flask_socketio import send, emit
 
 
 def index():
@@ -12,7 +13,7 @@ def sayhello(username):
 
 
 def chat_room(room):
-    return render_template("chatroom.html")
+    return render_template("chatroom_added.html")
 
 
 def chat_index():
