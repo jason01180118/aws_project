@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;background-color: #373737;">
+
+<head>
+    <title>Flask_Chat_App</title>
+    <meta charset="UTF-8">
+    <style>
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .bar {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .circle {
+            width: 100%;
+            height: 100%;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            border-radius: 50px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>$(() => { for (let i = 0; i < 10; i++)$('<div style="margin:5%; background:#FFFFFF; border-radius:25px; ">').appendTo('div.user_holder'); })</script>
+</head>
+
+<body style="height:100vh;">
+    <div style="width:100%; height:100%;">
+        <div style="width:100%; height:15%;display: flex;justify-content: center;">
+            <div style="width:60%; height:100%;display: flex;justify-content: center;align-items:center;">
+                <p style=" font-size: 72px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
+                        style="color: #F6BB75">Z</span><span style="color: #F4F675">H</span><span
+                        style="color: #75F6F6">F</span> MEET</p>
+                <p
+                    style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900; line-height: 0.83">
+                    <span style="color: #F6BB75">Z</span>ERO<br><span style="color: #F4F675">H</span>OME<br><span
+                        style="color: #75F6F6">F</span>ISH
+                </p>
+            </div>
+        </div>
+
+        <div style="width:100%; height:80%;display: flex;justify-content: center;">
+            <div style="width:90%; height:100%;background-color: #000000;border-radius: 30px;">
+                <div style="width:100%; height:12%;display: flex;justify-content: center;">
+                    <div style="width:90%; height:100%;display: flex;align-items: center;">
+                        <div class="circle" style="width:20px; height:20px; background: #F6BB75;"></div>
+                        <div class="circle" style="width:20px; height:20px; background:#F4F675;margin: 1%;"></div>
+                        <div class="circle" style="width:20px; height:20px; background: #75F6F6;"></div>
+                    </div>
+                </div>
+                <div style="width:100%; height:100%;display: flex;justify-content: space-evenly;">
+                    <div style="width:60%; height:88%;">
+                        <div style='width:100%; height:100%;display:grid;grid-template-columns: 1fr 1fr;grid-auto-rows: 50%;grid-auto-flow: row dense;overflow:scroll'
+                            class="user_holder bar">
+
+                        </div>
+                    </div>
+                    <div style="width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
+                        <div style="width:80%; height:40%;background:#373737;border: 1px solid #FFFFFF;
+                        border-radius: 25px;display: flex;flex-direction: column;align-items: center;">
+                            <div style="height:85%;width:100%; " class="chat_holder"></div>
+                            <input
+                                style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;font-size: 16px;font-family:inter;color: #FFFFFF;font-weight: 400;background:#373737;"
+                                type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
+                        </div>
+                        <div style=" width:80%; height:30%;background:#FFFFFF;margin-top: 5%;border-radius: 25px;">
+                        </div>
+                        <div style="width:80%; height:10%;margin-top: 5%;display: flex;align-items: center;">
+                            <div style="width:80%; height:100%;">
+                                <div style="height:50%;display: flex;align-items: center;">
+                                    <p
+                                        style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                        鏡頭 </p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="camera_mute">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                <div style="height:50%;display: flex;align-items: center;">
+                                    <p
+                                        style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                        麥克風</p>
+                                    <label class="switch">
+                                        <input type="checkbox" id="mic_mute">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="width:20%; height:80%;display: flex;align-items: center;">
+                                <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;"
+                                    src="../static/phone.png" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>
