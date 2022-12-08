@@ -4,6 +4,11 @@
 <head>
     <title>Flask_Chat_App</title>
     <style>
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
         .circle {
             width: 100%;
             height: 100%;
@@ -97,17 +102,19 @@
                         <div class="circle" style="width:15px; height:15px; background: #75F6F6;margin: 1%;"></div>
                     </div>
                 </div>
-                <div style="width:100%; height:88%;display: flex;justify-content: center;align-items: center;">
+                <div style="width:100%; height:88%;display: flex;justify-content: space-evenly;align-items: center;">
                     <div
-                        style="width:45%; height:75%;display: flex;justify-content: center;align-content: center;background-color: #FFFFFF;border-radius: 25px;">
+                        style="width:50%; height:75%;display: flex;justify-content: center;align-content: center;background-color: #FFFFFF;border-radius: 25px;">
                     </div>
-                    <div
-                        style="width:45%; height:75%;display: flex;justify-content: center;flex-direction: column;align-content: center;">
-                        <p
-                            style="width:100%; height:10%;font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
-                            即將加入聊天室</p>
+                    <div style="width:30%; height:75%;display: flex;flex-direction: column;align-content: center;">
+                        <div style="width:100%; height:15%;display: flex;justify-content: center;">
+                            <p
+                                style="font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
+                                即將加入聊天室</p>
+                        </div>
 
-                        <div style="width:100%; height:10%;display: flex;justify-content: center;">
+
+                        <div style="width:100%; height:12%;display: flex;justify-content: center;margin-top: 5%;">
                             <form action="" method="POST">
                                 <input
                                     style="height:100%;border-radius: 10px;font-size: 16px;font-family:inter;background-color:#D9D9D9;color: #5C5C5C;text-align:center;font-weight: 700;"
@@ -116,9 +123,10 @@
                         </div>
 
 
-                        <div style="height:15%;display: flex;justify-content: center;align-items: center;">
+                        <div
+                            style="height:15%;display: flex;justify-content: center;align-items: center;margin-top:10%">
                             <p
-                                style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;">
+                                style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                 鏡頭</p>
                             <label class="switch">
                                 <input type="checkbox">
@@ -127,16 +135,16 @@
                         </div>
                         <div style="height:15%;display: flex;justify-content: center;align-items: center;">
                             <p
-                                style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;">
+                                style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                 麥克風</p>
                             <label class="switch">
                                 <input type="checkbox">
                                 <span class="slider round"></span>
                             </label>
                         </div>
-                        <div style="width:100%; height:11%;display: flex;justify-content: center;margin-top: 10%">
+                        <div style="width:100%; height:14%;display: flex;justify-content: center;margin-top: 12%">
                             <button
-                                style="width:50%; height:100%;border-radius: 10px;background-color:#FFC645 ;font-size: 16px;font-family:inter;color: #5C5C5C;text-align:center;font-weight: 700;"
+                                style="width:40%; height:100%;border-radius: 10px;background-color:#FFC645 ;font-size: 16px;font-family:inter;color: #5C5C5C;text-align:center;font-weight: 700;"
                                 onClick="myFunction()" type='button'>
                                 進入聊天室
                             </button>
