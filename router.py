@@ -1,15 +1,13 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import send, emit
 
 
 def index():
     if request.method == 'POST':
-        try:
-            if request.values.get('username') != '':
-                return redirect('/videoroom/'+request.values.get('username'))
-        except:
-            if request.values.get('room') != '':
-                return render_template("chatroom_added.html", room=request.values.get('room'))
+        room = request.values.get('room')
+        if request.values.get('username') != '':
+            return redirect(url_for("videoroom", room=room))
+        return render_template("chatroom_added.html", room=room)
     return render_template("index.html")
 
 
