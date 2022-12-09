@@ -11,10 +11,11 @@ socketio = SocketIO(application, cors_allowed_origins="*")
 
 application.add_url_rule('/index', 'index',
                          index, methods=['GET', 'POST'])
+
 application.add_url_rule('/', 'index',
                          index, methods=['GET', 'POST'])
 
-application.add_url_rule('/videoroom/<room>', 'videoroom',
+application.add_url_rule('/videoroom/<string:room>', 'videoroom',
                          video_room, methods=['GET', 'POST'])
 
 
