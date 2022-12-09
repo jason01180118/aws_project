@@ -1,4 +1,3 @@
-from detect_image import detect_one_label
 from flask import Flask, render_template, request, redirect
 from flask_socketio import send, emit
 
