@@ -1,5 +1,4 @@
 var protocol = window.location.protocol;
-var socket = io.connect(protocol + '//' + document.domain + ':' + location.port);
 var camera_mute_checkbox;
 var mic_mute_checkbox;
 var camera_enabled;
