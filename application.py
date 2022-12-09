@@ -1,8 +1,8 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 import time
 from router import index, sayhello, upload_file, chat_room, video_chat_room, chat_index, video_room
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 # EB looks for an 'application' callable by default.
 application = Flask(__name__)
@@ -38,6 +38,7 @@ def messageReceived(methods=['GET', 'POST']):
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
+
 
 
 if __name__ == '__main__':
