@@ -1,7 +1,7 @@
 from flask import Flask
 import os
 import time
-from router import index,  index, video_room
+from router import index,  index, chatroom_added
 from flask_socketio import SocketIO
 
 # EB looks for an 'application' callable by default.
@@ -16,7 +16,7 @@ application.add_url_rule('/', 'index',
                          index, methods=['GET', 'POST'])
 
 application.add_url_rule('/videoroom/<string:room>', 'videoroom',
-                         video_room, methods=['GET', 'POST'])
+                         chatroom_added, methods=['GET', 'POST'])
 
 
 def messageReceived(methods=['GET', 'POST']):
