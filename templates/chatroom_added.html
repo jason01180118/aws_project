@@ -4,7 +4,7 @@
 <head>
     <title>Flask_Chat_App</title>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.ico') }}">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -100,7 +100,8 @@
                 <p
                     style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900;line-height: 0.83">
                     <span style="color: #F6BB75">Z</span>ERO<br><span style="color: #F4F675">H</span>OME<br><span
-                        style="color: #75F6F6">F</span>ISH</p>
+                        style="color: #75F6F6">F</span>ISH
+                </p>
             </div>
         </div>
 
@@ -122,48 +123,50 @@
                         </video>
                     </div>
                     <div style="width:30%; height:75%;display: flex;flex-direction: column;align-content: center;">
-                        <div style="width:100%; height:15%;display: flex;justify-content: center;">
-                            <p
-                                style="font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
-                                即將加入聊天室</p>
-                        </div>
+                        <form action="" method="POST">
+                            <div style="width:100%; height:15%;display: flex;justify-content: center;">
+                                <p
+                                    style="font-size: 36px;font-family:inter;color: white;text-align:center;font-weight: 900;">
+                                    即將加入聊天室</p>
+                            </div>
 
 
-                        <div style="width:100%; height:12%;display: flex;justify-content: center;margin-top: 5%;">
-                            <form action="" method="POST">
+                            <div style="width:100%; height:12%;display: flex;justify-content: center;margin-top: 5%;">
+
                                 <input
                                     style="height:100%;border-radius: 10px;font-size: 16px;font-family:inter;background-color:#D9D9D9;color: #5C5C5C;text-align:center;font-weight: 700;"
-                                    type="text" name="name" class="name" placeholder="你的暱稱" />
-                            </form>
-                        </div>
+                                    type="text" name="username" class="username" placeholder="你的暱稱" autofocus required/>
+
+                            </div>
 
 
-                        <div
-                            style="height:15%;display: flex;justify-content: center;align-items: center;margin-top:10%">
-                            <p
-                                style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
-                                鏡頭 </p>
-                            <label class="switch">
-                                <input type="checkbox" id="camera_mute" checked>
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        <div style="height:15%;display: flex;justify-content: center;align-items: center;">
-                            <p
-                                style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
-                                麥克風</p>
-                            <label class="switch">
-                                <input type="checkbox" id="mic_mute" checked>
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                        <div style="width:100%; height:14%;display: flex;justify-content: center;margin-top: 12%">
-                            <button
-                                style="width:40%; height:100%;border-radius: 10px;background-color:#FFC645 ;font-size: 16px;font-family:inter;color: #5C5C5C;text-align:center;font-weight: 700;"
-                                onClick="myFunction()" type='button'>
-                                進入聊天室
-                            </button>
-                        </div>
+                            <div
+                                style="height:15%;display: flex;justify-content: center;align-items: center;margin-top:10%">
+                                <p
+                                    style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                    鏡頭 </p>
+                                <label class="switch">
+                                    <input type="checkbox" id="camera_mute">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div style="height:15%;display: flex;justify-content: center;align-items: center;">
+                                <p
+                                    style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                    麥克風</p>
+                                <label class="switch">
+                                    <input type="checkbox" id="mic_mute">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div style="width:100%; height:14%;display: flex;justify-content: center;margin-top: 12%">
+                                <button
+                                    style="width:40%; height:100%;border-radius: 10px;background-color:#FFC645 ;font-size: 16px;font-family:inter;color: #5C5C5C;text-align:center;font-weight: 700;"
+                                    type='submit'>
+                                    進入聊天室
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -91,16 +91,10 @@
             border-radius: 50%;
         }
     </style>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='icon.ico') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Socket.IO 的 CDN 連結 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
-        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>$(() => { for (let i = 0; i < 10; i++)$('<div style="margin:5%; background:#FFFFFF; border-radius:25px; ">').appendTo('div.user_holder'); })</script>
-    <script src = "{{ url_for('static', filename = 'chatroom_socket.js') }}"> </script>
 </head>
 
 <body style="height:100vh;">
@@ -143,9 +137,6 @@
                                 type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
                         </div>
                         <div style=" width:80%; height:30%;background:#FFFFFF;margin-top: 5%;border-radius: 25px;">
-                            <video autoplay="true" id="videoElement" style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
-
-                            </video>
                         </div>
                         <div style="width:80%; height:10%;margin-top: 5%;display: flex;align-items: center;">
                             <div style="width:80%; height:100%;">
@@ -154,7 +145,7 @@
                                         style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         鏡頭 </p>
                                     <label class="switch">
-                                        <input type="checkbox" id="camera_enabled" checked>
+                                        <input type="checkbox" id="camera_mute">
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -163,7 +154,7 @@
                                         style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         麥克風</p>
                                     <label class="switch">
-                                        <input type="checkbox" id="mic_enabled" checked>
+                                        <input type="checkbox" id="mic_mute">
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
