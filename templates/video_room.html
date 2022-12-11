@@ -4,6 +4,10 @@
 <head>
     <title>Flask_Chat_App</title>
     <meta charset="UTF-8">
+
+    <!-- icon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
     <style>
         p {
             margin: 0;
@@ -94,12 +98,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
     <!-- Socket.IO 的 CDN 連結 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
         integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
@@ -107,20 +111,22 @@
 
     <!-- google Material icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
+
     <script type="text/javascript">
         var myRoomID = "{{room_id}}";
         var myName = "{{username}}";
-        var audioMuted = "{{mute_audio}}" == "1";
-        var videoMuted = "{{mute_video}}" == "1";
+        var mic_enabled = "{{audio_enabled}}" == "1";
+        var camera_enabled = "{{video_enabled}}" == "1";
+        var audioError = false;
+        var videoError = false;
     </script>
-    <script src="{{ url_for('static', filename='chatroom_ui.js') }}"> </script>
-    <script src="{{ url_for('static', filename='video_room.js') }}"> </script>
+    <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
+    <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
     <style>
         .video_item {
-            margin:5%;
-            background:#FFFFFF;
-            border-radius:25px;
+            margin: 5%;
+            background: #FFFFFF;
+            border-radius: 25px;
         }
     </style>
 </head>
@@ -153,7 +159,7 @@
                     <div style="width:60%; height:88%;">
                         <div style='width:100%; height:100%;display:grid;grid-template-columns: 1fr 1fr;grid-auto-rows: 50%;grid-auto-flow: row dense;overflow:scroll'
                             class="user_holder bar">
-                            
+
                         </div>
                     </div>
                     <div style="width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
