@@ -94,7 +94,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>$(() => { for (let i = 0; i < 10; i++)$('<div style="margin:5%; background:#FFFFFF; border-radius:25px; ">').appendTo('div.user_holder'); })</script>
+    
+    <!-- Socket.IO 的 CDN 連結 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
+        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- google Material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <script type="text/javascript">
+        var myRoomID = "{{room_id}}";
+        var myName = "{{username}}";
+        var audioMuted = "{{mute_audio}}" == "1";
+        var videoMuted = "{{mute_video}}" == "1";
+    </script>
+    <script src="{{ url_for('static', filename='chatroom_ui.js') }}"> </script>
+    <script src="{{ url_for('static', filename='video_room.js') }}"> </script>
+    <style>
+        .video_item {
+            margin:5%;
+            background:#FFFFFF;
+            border-radius:25px;
+        }
+    </style>
 </head>
 
 <body style="height:100vh;">
@@ -125,7 +153,7 @@
                     <div style="width:60%; height:88%;">
                         <div style='width:100%; height:100%;display:grid;grid-template-columns: 1fr 1fr;grid-auto-rows: 50%;grid-auto-flow: row dense;overflow:scroll'
                             class="user_holder bar">
-
+                            
                         </div>
                     </div>
                     <div style="width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
@@ -137,6 +165,10 @@
                                 type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
                         </div>
                         <div style=" width:80%; height:30%;background:#FFFFFF;margin-top: 5%;border-radius: 25px;">
+                            <video autoplay="true" id="videoElement"
+                                style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
+
+                            </video>
                         </div>
                         <div style="width:80%; height:10%;margin-top: 5%;display: flex;align-items: center;">
                             <div style="width:80%; height:100%;">
@@ -145,7 +177,7 @@
                                         style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         鏡頭 </p>
                                     <label class="switch">
-                                        <input type="checkbox" id="camera_mute">
+                                        <input type="checkbox" id="camera_mute" checked>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
@@ -154,12 +186,12 @@
                                         style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         麥克風</p>
                                     <label class="switch">
-                                        <input type="checkbox" id="mic_mute">
+                                        <input type="checkbox" id="mic_mute" checked>
                                         <span class="slider round"></span>
                                     </label>
                                 </div>
                             </div>
-                            <div style="width:20%; height:80%;display: flex;align-items: center;">
+                            <div id="call_end" style="width:20%; height:80%;display: flex;align-items: center;">
                                 <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;"
                                     src="../static/phone.png" />
                             </div>

@@ -9,11 +9,7 @@
         integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- Socket.IO 的 CDN 連結 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
-        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ url_for('static', filename='chatroom_socket.js') }}"> </script>
+    <script src="{{ url_for('static', filename='chatroom_added.js') }}"> </script>
     <style>
         p {
             margin: 0;
@@ -146,7 +142,7 @@
                                     style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                     鏡頭 </p>
                                 <label class="switch">
-                                    <input type="checkbox" id="camera_mute">
+                                    <input type="checkbox" id="camera_mute" checked>
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -155,7 +151,7 @@
                                     style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                     麥克風</p>
                                 <label class="switch">
-                                    <input type="checkbox" id="mic_mute">
+                                    <input type="checkbox" id="mic_mute" checked>
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -166,6 +162,8 @@
                                     進入聊天室
                                 </button>
                             </div>
+                            <input type="hidden" value="1" name="mute_audio" id="mute_audio_inp">
+                            <input type="hidden" value="1" name="mute_video" id="mute_video_inp">
                         </form>
                     </div>
                 </div>
