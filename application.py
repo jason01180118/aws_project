@@ -58,12 +58,9 @@ def on_join_room(data):
         _users_in_room[room_id] = [sid]
         emit("user-list", {"my_id": sid})  # send own id only
     else:
-        usrlist = {u_id: _name_of_sid[u_id]
-                   for u_id in _users_in_room[room_id]}
-        # send list of existing users to the new member
-        emit("user-list", {"list": usrlist, "my_id": sid})
-        # add new member to user list maintained on server
-        _users_in_room[room_id].append(sid)
+        user_list = {u_id:_name_of_sid[u_id] for u_id in _users_in_room[room_id]}
+        emit("user-list", {"list": user_list, "my_id": sid})  # send list of existing users to the new member
+        _users_in_room[room_id].append(sid)  # add new member to user list maintained on server
 
     print("\nusers: ", _users_in_room, "\n")
 
@@ -104,7 +101,6 @@ def on_data(data):
 @socketio.on("state-change")
 def on_state_change(data):
     socketio.emit('state-change', data, to=data["room"])
-
 
 if __name__ == '__main__':
     application.debug = True

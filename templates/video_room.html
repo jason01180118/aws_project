@@ -142,11 +142,13 @@
 
     <script type="text/javascript">
         var myRoomID = "{{room_id}}";
-        var myName = "{{username}}";
-        var mic_enabled = "{{audio_enabled}}" == "1";
-        var camera_enabled = "{{video_enabled}}" == "1";
+
         var audioError = false;
         var videoError = false;
+        var myName = "{{user_data['name']}}";
+        var audioMuted = "{{user_data['mute_audio']}}" == "1";
+        var videoMuted = "{{user_data['mute_video']}}" == "1";
+
     </script>
     <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
