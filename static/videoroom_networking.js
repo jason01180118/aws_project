@@ -9,52 +9,70 @@ var _peer_list = {};
 var protocol = window.location.protocol;
 var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
 
-var video_allowed = false;
-var audio_allowed = false;
-var videoConstraints = {
-    video: {
-        height: 360
-    }
-};
-var audioConstraints = {
-    audio: true
-};
+var media_allowed = true;
 
 function startCamera() {
-    var video_track = new MediaStream();
-    navigator.mediaDevices.getUserMedia(videoConstraints)
+    var mediaConstraints = {
+        audio: true,
+        video: {
+            height: 360
+        }
+    };
+    var videoConstraints = {
+        video: {
+            height: 360
+        }
+    };
+    var audioConstraints = {
+        audio: true
+    };
+    const promiseMedia = navigator.mediaDevices.getUserMedia(mediaConstraints)
         .then((stream) => {
             document.querySelector("#videoElement").srcObject = stream;
-            video_track.addTrack(stream.getVideoTracks()[0]);
-            video_allowed = true;
         })
         .catch((e) => {
-            console.log("Error! Unable to access camera! ", e);
-        });
-    navigator.mediaDevices.getUserMedia(audioConstraints)
-        .then((stream) => {
-            if (video_allowed) {
-                stream.addTrack(video_track.getVideoTracks()[0]);
+            if (e.name == "NotReadableError") {
+                const promiseAudio = navigator.mediaDevices.getUserMedia(audioConstraints)
+                    .then((stream) => {
+                        document.querySelector("#videoElement").srcObject = stream;
+                    })
+                    .catch((e) => {
+                        audioError = true;
+                        console.log(e.name, e.message);
+                    });
+                const promiseVideo = navigator.mediaDevices.getUserMedia(videoConstraints)
+                    .then((stream) => {
+                        document.querySelector("#videoElement").srcObject = stream;
+                    })
+                    .catch((e) => {
+                        videoError = true;
+                        console.log(e.name, e.message);
+                    });
+                return Promise.allSettled([promiseAudio, promiseVideo]);
             }
-            document.querySelector("#videoElement").srcObject = stream;
-            audio_allowed = true;
-        })
-        .catch((e) => {
-            console.log("Error! Unable to access mic! ", e);
+            else if (e.name == "NotAllowedError") {
+                media_allowed = false;
+                audioError = true;
+                videoError = true;
+                console.log(e.name, e.message);
+            }
+            else {
+                console.log(e.name, e.message);
+            }
         })
         .then(() => {
-            var camera_mute_checkbox = document.querySelector("#camera_mute");
-            var mic_mute_checkbox = document.querySelector("#mic_mute");
-            camera_mute_checkbox.checked = videoMuted;
-            mic_mute_checkbox.checked = audioMuted;
-            if(!video_allowed) {
-                document.querySelector("#camera_mute").disabled = true;
+            if (videoError) {
+                camera_enabled = false;
             }
-            if(!audio_allowed) {
-                document.querySelector("#mic_mute").disabled = true;
+            if (audioError) {
+                mic_enabled = false;
             }
-            setVideoMuteState(videoMuted);
-            setAudioMuteState(audioMuted);
+            document.querySelector("#camera_mute").checked = camera_enabled;
+            document.querySelector("#mic_mute").checked = mic_enabled;
+            if (media_allowed) {
+                setVideoState(camera_enabled);
+                setAudioState(mic_enabled);
+            }
             socket.connect();
         });
 }
