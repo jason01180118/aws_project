@@ -69,6 +69,7 @@ function setVideoMuteState(flag) {
     for (let i = 0; i < track.length; i++) {
         track[i].enabled = flag;
     }
+
 }
 
 function setAudioMuteState(flag) {

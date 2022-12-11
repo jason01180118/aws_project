@@ -56,6 +56,15 @@ function setVideoMuteState(flag) {
     for (let i = 0; i < track.length; i++) {
         track[i].enabled = flag;
     }
+    console.log(flag)
+    if(!flag){
+        console.log('video disabled')
+        var default_image = document.createElement("div");
+        default_image.id = "default"
+        document.querySelector("#videoElement").source = "shiba-inu.png"
+        // document.querySelector("#video_frame").appendChild(default_image)
+        console.log(default_image)
+    }
 }
 
 function setAudioMuteState(flag) {
