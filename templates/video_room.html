@@ -110,9 +110,9 @@
     
     <script type="text/javascript">
         var myRoomID = "{{room_id}}";
-        var myName = "{{username}}";
-        var audioMuted = "{{mute_audio}}" == "1";
-        var videoMuted = "{{mute_video}}" == "1";
+        var myName = "{{user_data['name']}}";
+        var audioMuted = "{{user_data['mute_audio']}}" == "1";
+        var videoMuted = "{{user_data['mute_video']}}" == "1";
     </script>
     <script src="{{ url_for('static', filename='chatroom_ui.js') }}"> </script>
     <script src="{{ url_for('static', filename='video_room.js') }}"> </script>

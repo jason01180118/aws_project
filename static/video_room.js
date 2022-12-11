@@ -81,17 +81,16 @@ socket.on("user-list", (data) => {
     myID = data["my_id"];
     if ("list" in data) // not the first to connect to room, existing user list recieved
     {
-        let recvd_list = data["list"];
+        let received_list = data["list"];
         // add existing users to user list
-        for (peer_id in recvd_list) {
-            display_name = recvd_list[peer_id];
+        for (peer_id in received_list) {
+            display_name = received_list[peer_id];
             _peer_list[peer_id] = undefined;
             addVideoElement(peer_id, display_name);
         }
         start_webrtc();
     }
 });
-
 function closeConnection(peer_id) {
     if (peer_id in _peer_list) {
         _peer_list[peer_id].onicecandidate = null;

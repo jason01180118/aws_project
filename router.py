@@ -10,9 +10,11 @@ def index():
 
 def chatroom_added(room_id):
     if request.method == 'POST':
-        username = request.values.get('username')
-        mute_audio = request.values.get('mute_audio')
-        mute_video = request.values.get('mute_video')
-        session[room_id] = {"name": username, "mute_audio":mute_audio, "mute_video":mute_video}
-        return render_template("video_room.html", room_id=room_id, username=username, mute_audio=mute_audio, mute_video=mute_video)
+        user_data = {
+            'name': request.values.get('username'),
+            'mute_audio': request.values.get('mute_audio'),
+            'mute_video': request.values.get('mute_video'),
+        }
+        session[room_id] = user_data
+        return render_template("video_room.html", room_id=room_id, user_data=user_data)
     return render_template("chatroom_added.html")
