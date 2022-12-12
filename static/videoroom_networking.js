@@ -1,7 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-    startCamera();
-});
-
+var myPeerID;
 var _peer_list = {};
 
 // socketio 
@@ -9,6 +6,22 @@ var protocol = window.location.protocol;
 var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
 
 var media_allowed = true;
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    startCamera();
+    var camera_mute_checkbox = document.querySelector("#camera_mute");
+    var mic_mute_checkbox = document.querySelector("#mic_mute");
+    camera_mute_checkbox.addEventListener('change', () => {
+        if (!videoError) {
+            socket.emit("state-change", { "sid": myPeerID, "CorM": "C", "state": camera_enabled });
+        }
+    });
+    mic_mute_checkbox.addEventListener('change', function () {
+        if (!audioError) {
+            socket.emit("state-change", { "sid": myPeerID, "CorM": "M", "state": camera_enabled });
+        }
+    });
+});
 
 function startCamera() {
     var mediaConstraints = {
@@ -111,11 +124,13 @@ socket.on("user-list", (data) => {
 });
 
 socket.on("state-change", (data) => {
-    if (data["CorM"] == "C") {
-        setOtherUserVideoState(data["sid"], data["state"]);
-    }
-    else {
-        setOtherUserAudioState(data["sid"], data["state"]);
+    if (data["sid"] != myPeerID) {
+        if (data["CorM"] == "C") {
+            setOtherUserVideoState(data["sid"], data["state"]);
+        }
+        else {
+            setOtherUserAudioState(data["sid"], data["state"]);
+        }
     }
 });
 

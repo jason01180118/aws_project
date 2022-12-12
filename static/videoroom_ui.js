@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!videoError) {
             camera_enabled = camera_mute_checkbox.checked;
             setVideoState(camera_enabled);
-            socket.emit("state-change", { "sid": myPeerID, "CorM": "C", "state": camera_enabled });
         }
         else {
             camera_mute_checkbox.checked = false;
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!audioError) {
             mic_enabled = mic_mute_checkbox.checked;
             setAudioState(mic_enabled);
-            socket.emit("state-change", { "sid": myPeerID, "CorM": "M", "state": camera_enabled });
         }
         else {
             mic_mute_checkbox.checked = false;
@@ -95,8 +93,10 @@ function setAudioState(flag) {
 
 function setOtherUserVideoState(peer_id, flag) {
     let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    console.log(peer_id + " camera state change to " + flag);
 }
 
 function setOtherUserAudioState(peer_id, flag) {
     let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    console.log(peer_id + " mic state change to " + flag);
 }
