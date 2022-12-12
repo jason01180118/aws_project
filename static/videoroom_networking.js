@@ -1,8 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-    startCamera();
-});
-
-var myID;
+var myPeerID;
 var _peer_list = {};
 
 // socketio 
@@ -10,6 +6,22 @@ var protocol = window.location.protocol;
 var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
 
 var media_allowed = true;
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    startCamera();
+    var camera_mute_checkbox = document.querySelector("#camera_mute");
+    var mic_mute_checkbox = document.querySelector("#mic_mute");
+    camera_mute_checkbox.addEventListener('change', () => {
+        if (!videoError) {
+            socket.emit("state-change", { "sid": myPeerID, "CorM": "C", "state": camera_enabled });
+        }
+    });
+    mic_mute_checkbox.addEventListener('change', function () {
+        if (!audioError) {
+            socket.emit("state-change", { "sid": myPeerID, "CorM": "M", "state": camera_enabled });
+        }
+    });
+});
 
 function startCamera() {
     var mediaConstraints = {
@@ -75,6 +87,7 @@ function startCamera() {
             }
             socket.connect();
         });
+    return Promise.allSettled([promiseMedia]);
 }
 
 socket.on("connect", () => {
@@ -96,7 +109,7 @@ socket.on("user-disconnect", (data) => {
 });
 socket.on("user-list", (data) => {
     console.log("user list recvd ", data);
-    myID = data["my_id"];
+    myPeerID = data["my_id"];
     if ("list" in data) // not the first to connect to room, existing user list recieved
     {
         let recvd_list = data["list"];
@@ -107,6 +120,17 @@ socket.on("user-list", (data) => {
             addVideoElement(peer_id, display_name);
         }
         start_webrtc();
+    }
+});
+
+socket.on("state-change", (data) => {
+    if (data["sid"] != myPeerID) {
+        if (data["CorM"] == "C") {
+            setOtherUserVideoState(data["sid"], data["state"]);
+        }
+        else {
+            setOtherUserAudioState(data["sid"], data["state"]);
+        }
     }
 });
 
@@ -167,7 +191,7 @@ function start_webrtc() {
 
 function invite(peer_id) {
     if (_peer_list[peer_id]) { console.log("[Not supposed to happen!] Attempting to start a connection that already exists!") }
-    else if (peer_id === myID) { console.log("[Not supposed to happen!] Trying to connect to self!"); }
+    else if (peer_id === myPeerID) { console.log("[Not supposed to happen!] Trying to connect to self!"); }
     else {
         console.log(`Creating peer connection for <${peer_id}> ...`);
         createPeerConnection(peer_id);
@@ -192,7 +216,7 @@ function handleNegotiationNeededEvent(peer_id) {
         .then(() => {
             console.log(`sending offer to <${peer_id}> ...`);
             sendViaServer({
-                "sender_id": myID,
+                "sender_id": myPeerID,
                 "target_id": peer_id,
                 "type": "offer",
                 "sdp": _peer_list[peer_id].localDescription
@@ -218,7 +242,7 @@ function handleOfferMsg(msg) {
         .then(() => {
             console.log(`sending answer to <${peer_id}> ...`);
             sendViaServer({
-                "sender_id": myID,
+                "sender_id": myPeerID,
                 "target_id": peer_id,
                 "type": "answer",
                 "sdp": _peer_list[peer_id].localDescription
@@ -238,7 +262,7 @@ function handleAnswerMsg(msg) {
 function handleICECandidateEvent(event, peer_id) {
     if (event.candidate) {
         sendViaServer({
-            "sender_id": myID,
+            "sender_id": myPeerID,
             "target_id": peer_id,
             "type": "new-ice-candidate",
             "candidate": event.candidate

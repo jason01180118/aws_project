@@ -93,3 +93,13 @@ function setAudioState(flag) {
         track[i].enabled = flag;
     }
 }
+
+function setOtherUserVideoState(peer_id, flag) {
+    let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    console.log(peer_id + " camera state change to " + flag);
+}
+
+function setOtherUserAudioState(peer_id, flag) {
+    let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    console.log(peer_id + " mic state change to " + flag);
+}

@@ -94,6 +94,11 @@ def on_data(data):
         print('{} message from {} to {}'.format(data["type"], sender_sid, target_sid))
     socketio.emit('data', data, room=target_sid)
 
+
+@socketio.on("state-change")
+def on_state_change(data):
+    socketio.emit('state-change',data)
+
 if __name__ == '__main__':
     application.debug = True
     socketio.run(application)
