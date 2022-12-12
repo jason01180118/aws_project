@@ -1,8 +1,34 @@
 var myVideo;
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    new QRCode(document.getElementById("qrcode"), location.href);
-    console.log(document.getElementById("qrcode"))
+    new QRCode(document.getElementById("qrcode"), {
+        text: location.href,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    document.getElementById("href").innerText = location.href
+    document.getElementById("copyhref").addEventListener('click', () => {
+        navigator.clipboard.writeText(location.href)
+            .then(() => {
+                console.log("Text copied to clipboard...")
+            })
+            .catch(err => {
+                console.log('Something went wrong', err);
+            })
+    })
+    document.getElementById("invite").addEventListener('mouseover', () => {
+        setTimeout(() => {
+            document.getElementById("qrcode").style.visibility = "visible"
+        }, "500")
+    })
+    document.getElementById("invite").addEventListener('mouseleave', () => {
+        setTimeout(() => {
+            document.getElementById("qrcode").style.visibility = "hidden"
+        }, "500")
+    })
     myVideo = document.getElementById("videoElement");
     var camera_mute_checkbox = document.querySelector("#camera_mute");
     var mic_mute_checkbox = document.querySelector("#mic_mute");
