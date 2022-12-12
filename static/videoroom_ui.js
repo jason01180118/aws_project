@@ -1,17 +1,34 @@
 var myVideo;
-
 document.addEventListener("DOMContentLoaded", (event) => {
-    new QRCode(document.getElementById("qrcode"), location.href);
-    console.log(document.getElementById("qrcode"))
+    new QRCode(document.getElementById("qrcode"), {
+        text: location.href,
+        width: 128,
+        height: 128,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    document.getElementById("href").innerText = location.href
+    document.getElementById("copyhref").addEventListener('click', () => {
+        navigator.clipboard.writeText(location.href)
+            .then(() => {
+                console.log("Text copied to clipboard...")
+            })
+            .catch(err => {
+                console.log('Something went wrong', err);
+            })
+    })
     myVideo = document.getElementById("videoElement");
     var camera_mute_checkbox = document.querySelector("#camera_mute");
     var mic_mute_checkbox = document.querySelector("#mic_mute");
     var callEndBttn = document.getElementById("call_end");
+    var chat_submit_btn;//需要加上串接聊天訊息提交按鈕
 
     camera_mute_checkbox.addEventListener('change', () => {
         if (!videoError) {
             camera_enabled = camera_mute_checkbox.checked;
             setVideoState(camera_enabled);
+            socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
         }
         else {
             camera_mute_checkbox.checked = false;
@@ -23,6 +40,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!audioError) {
             mic_enabled = mic_mute_checkbox.checked;
             setAudioState(mic_enabled);
+            socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
         }
         else {
             mic_mute_checkbox.checked = false;
@@ -32,6 +50,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     callEndBttn.addEventListener("click", (event) => {
         window.location.replace("/");
+    });
+
+    chat_submit_btn.addEventListener('click', () => {
+        var chat_msg = "123";//需要加上串接聊天訊息內容
+        socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
     });
 });
 
@@ -94,12 +117,16 @@ function setAudioState(flag) {
     }
 }
 
-function setOtherUserVideoState(peer_id, flag) {
+function setOtherUserVideoState(peer_id, flag) {//需要加上別的用戶關閉鏡頭時的動作
     let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
     console.log(peer_id + " camera state change to " + flag);
 }
 
-function setOtherUserAudioState(peer_id, flag) {
+function setOtherUserAudioState(peer_id, flag) {//需要加上別的用戶關閉麥克風時的動作
     let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
     console.log(peer_id + " mic state change to " + flag);
+}
+
+function newChatMsg(sender, msg) {//需要加上顯示新訊息
+    console.log(sender + " says: " + msg);
 }

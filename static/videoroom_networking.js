@@ -1,26 +1,9 @@
 var myPeerID;
 var _peer_list = {};
-
-// socketio 
-var protocol = window.location.protocol;
-var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
-
 var media_allowed = true;
 
 document.addEventListener("DOMContentLoaded", (event) => {
     startCamera();
-    var camera_mute_checkbox = document.querySelector("#camera_mute");
-    var mic_mute_checkbox = document.querySelector("#mic_mute");
-    camera_mute_checkbox.addEventListener('change', () => {
-        if (!videoError) {
-            socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_mute_checkbox.checked });
-        }
-    });
-    mic_mute_checkbox.addEventListener('change', function () {
-        if (!audioError) {
-            socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_mute_checkbox.checked });
-        }
-    });
 });
 
 function startCamera() {
@@ -124,7 +107,6 @@ socket.on("user-list", (data) => {
         socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
     }
 });
-
 socket.on("state-change", (data) => {
     if (data["sid"] != myPeerID) {
         if (data["CorM"] == "C") {
@@ -135,6 +117,10 @@ socket.on("state-change", (data) => {
         }
     }
 });
+socket.on("chat-recv", (data) => {
+    newChatMsg(data["username"], data["msg"]);
+});
+
 
 function closeConnection(peer_id) {
     if (peer_id in _peer_list) {

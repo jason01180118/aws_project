@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="overflow: hidden;background-color: #373737;">
+<html lang="en" style="overflow: hidden;background-color: #373737;height:100%;">
 
 <head>
     <title>Flask_Chat_App</title>
@@ -104,7 +104,7 @@
         .vid-wrapper {
             position: relative;
             margin: 10%;
-            background: #FFFFFF;
+            background-color: #D9D9D9;
             border: 1px solid #000000;
             border-radius: 25px;
             width: 80%;
@@ -122,6 +122,17 @@
         .video {
             width: 100%;
             height: 100%;
+        }
+
+        .invite {
+            bottom: -260px;
+            left: 10%;
+            transition-duration: 1s;
+        }
+
+        .invite:hover,
+        .invite:active {
+            transform: translateY(-300px);
         }
     </style>
 
@@ -147,20 +158,24 @@
         var camera_enabled = "{{video_enabled}}" == "1";
         var audioError = false;
         var videoError = false;
+        // socketio 
+        var protocol = window.location.protocol;
+        var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
+
     </script>
     <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
 </head>
 
-<body style="height:100vh;">
+<body style="height:100%;">
     <div style="width:100%; height:100%;">
         <div style="width:100%; height:15%;display: flex;justify-content: center;">
             <div style="width:60%; height:100%;display: flex;justify-content: center;align-items:center;">
-                <p style=" font-size: 72px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
+                <p style=" font-size: 9vmin; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
                         style="color: #F6BB75">Z</span><span style="color: #F4F675">H</span><span
                         style="color: #75F6F6">F</span> MEET</p>
                 <p
-                    style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900; line-height: 0.83">
+                    style=" font-size: 3vmin; font-family:inter; color: white;padding: 1%;font-weight: 900; line-height: 0.83">
                     <span style="color: #F6BB75">Z</span>ERO<br><span style="color: #F4F675">H</span>OME<br><span
                         style="color: #75F6F6">F</span>ISH
                 </p>
@@ -190,7 +205,8 @@
                                 style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;font-size: 16px;font-family:inter;color: #FFFFFF;font-weight: 400;background:#373737;"
                                 type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
                         </div>
-                        <div style=" width:80%; height:30%;background:#FFFFFF;margin-top: 5%;border-radius: 25px;">
+                        <div
+                            style=" width:80%; height:30%;background-color:#D9D9D9;margin-top: 5%;border-radius: 25px;">
                             <video autoplay="true" id="videoElement" muted
                                 style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
 
@@ -200,7 +216,7 @@
                             <div style="width:80%; height:100%;">
                                 <div style="height:50%;display: flex;align-items: center;">
                                     <p
-                                        style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                        style="font-size: 3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         鏡頭 </p>
                                     <label class="switch">
                                         <input type="checkbox" id="camera_mute" checked>
@@ -209,7 +225,7 @@
                                 </div>
                                 <div style="height:50%;display: flex;align-items: center;">
                                     <p
-                                        style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                        style="font-size:3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         麥克風</p>
                                     <label class="switch">
                                         <input type="checkbox" id="mic_mute" checked>
@@ -227,7 +243,30 @@
             </div>
         </div>
     </div>
+    <div id="invite" class="invite" style="position:fixed;height:300px;width:300px;background: #373737;
+        border-radius: 25px;display: flex;flex-direction: column;align-items: center;">
+        <div
+            style="height: 40px;width:300px;background-color: #FFC645;border-top-left-radius: 25px;border-top-right-radius: 25px;display: flex;flex-direction: column;align-items: center;justify-content: center;">
+            <p
+                style="font-size:24px;text-align:center;color:#000000;font-family: Inter;font-style: normal;font-weight: 700;">
+                邀請朋友加入</p>
+        </div>
+        <div id="qrcode" style="height: 128px;width:128px;margin-top: 20px;"></div>
+        <div style="height: 30px;width:300px;margin-top: 20px;">
+            <p
+                style="font-size:24px;text-align:center;color:#FFFFFF;font-family: Inter;font-style: normal;font-weight: 700;">
+                會議室連結</p>
+        </div>
+        <div
+            style="height: 30px;width:250px;background: #FFC645;border-radius: 10px;display: flex;justify-content: center;margin-top: 5px;">
+            <p id="href"
+                style="height: 30px;width:150px;overflow:scroll;font-size:24px;text-align:center;color:5C5C5C;font-family: Inter;font-style: normal;font-weight: 700;"
+                class="bar">
+            </p>
+        </div>
+        <img id="copyhref" src="../static/copy.png"
+            style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
+    </div>
 </body>
-<div id="qrcode" style="background-color:#FFFFFF"></div>
 
 </html>

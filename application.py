@@ -106,6 +106,11 @@ def on_state_change(data):
     socketio.emit('state-change', data, to=data["room"])
 
 
+@socketio.on("chat-send")
+def on_chat_send(data):
+    socketio.emit('chat-recv', data, to=data["room"])
+
+
 if __name__ == '__main__':
     application.debug = True
     socketio.run(application)
