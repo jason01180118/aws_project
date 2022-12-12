@@ -1,1 +1,6 @@
-__pycache__
+virt/
+__pycache__/
+.idea/
+.ebignore
+sample_videochat.zip
+aws_project.zip
