@@ -18,11 +18,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 console.log('Something went wrong', err);
             })
     })
+    document.getElementById("msg").addEventListener('focus', () => {
+        document.addEventListener('keydown', detectKey)
+    })
+    document.getElementById("msg").addEventListener('focusout', () => {
+        document.removeEventListener('keydown', detectKey)
+    })
+    function detectKey(key) {
+        if (key.key === 'Enter') {
+            var chat_msg = document.getElementById("msg").value;//需要加上串接聊天訊息內容
+            document.getElementById("msg").value = ''
+            socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
+        }
+    }
     myVideo = document.getElementById("videoElement");
     var camera_mute_checkbox = document.querySelector("#camera_mute");
     var mic_mute_checkbox = document.querySelector("#mic_mute");
     var callEndBttn = document.getElementById("call_end");
-    var chat_submit_btn;//需要加上串接聊天訊息提交按鈕
+    var chat_submit_btn = document.getElementById("msgsend");//需要加上串接聊天訊息提交按鈕
 
     camera_mute_checkbox.addEventListener('change', () => {
         if (!videoError) {
@@ -53,7 +66,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     chat_submit_btn.addEventListener('click', () => {
-        var chat_msg = "123";//需要加上串接聊天訊息內容
+        var chat_msg = document.getElementById("msg").value;//需要加上串接聊天訊息內容
+        document.getElementById("msg").value = ''
         socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
     });
 });
@@ -127,6 +141,21 @@ function setOtherUserAudioState(peer_id, flag) {//需要加上別的用戶關閉
     console.log(peer_id + " mic state change to " + flag);
 }
 
+function makeChatElement(sender, msg) {
+    let msg_div = document.createElement("div");
+    let msg_p = document.createElement("p");
+
+    msg_div.className = "msg_div bar";
+    msg_p.className = "msg_p";
+
+    msg_p.innerText = sender + ':' + msg;
+
+    msg_div.appendChild(msg_p);
+
+    return msg_div;
+}
+
 function newChatMsg(sender, msg) {//需要加上顯示新訊息
     console.log(sender + " says: " + msg);
+    document.querySelector("div.chat_holder").append(makeChatElement(sender, msg));
 }

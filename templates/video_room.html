@@ -39,7 +39,7 @@
             position: relative;
             display: inline-block;
             width: 60px;
-            height: 34px;
+            height: 20px;
         }
 
         .switch input {
@@ -63,10 +63,10 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
             -webkit-transition: .4s;
             transition: .4s;
@@ -81,9 +81,9 @@
         }
 
         input:checked+.slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
+            -webkit-transform: translateX(38px);
+            -ms-transform: translateX(38px);
+            transform: translateX(38px);
         }
 
         /* Rounded sliders */
@@ -122,6 +122,22 @@
         .video {
             width: 100%;
             height: 100%;
+        }
+
+        .msg_div {
+            margin: 3%;
+            width: 94%;
+            overflow: scroll;
+            display: inline;
+        }
+
+        .msg_p {
+            color: #FFFFFF;
+            font-size: 2vmin;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         }
 
         .invite {
@@ -197,13 +213,19 @@
                             class="user_holder bar">
                         </div>
                     </div>
-                    <div style="width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
+                    <div
+                        style="position:relative;width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
                         <div style="width:80%; height:40%;background:#373737;border: 1px solid #FFFFFF;
                         border-radius: 25px;display: flex;flex-direction: column;align-items: center;">
-                            <div style="height:85%;width:100%; " class="chat_holder"></div>
-                            <input
-                                style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;font-size: 16px;font-family:inter;color: #FFFFFF;font-weight: 400;background:#373737;"
-                                type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
+                            <div style="height:85%;width:100%;overflow: scroll; " class="chat_holder bar"></div>
+                            <div
+                                style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;background-color:#373737;display: flex;align-items: center;">
+                                <input
+                                    style="margin-left:5%;height:60%;width:75%;font-size: 2vmin;font-family:inter;color: #FFFFFF;font-weight: 400;background-color:#373737;"
+                                    type="text" id="msg" name="msg" placeholder="Type somethings here" />
+                            </div>
+                            <img id="msgsend" style="position:absolute;top:35.5%;right:16%;max-width:5%;max-height:5%"
+                                src="../static/send.png">
                         </div>
                         <div
                             style=" width:80%; height:30%;background-color:#D9D9D9;margin-top: 5%;border-radius: 25px;">
@@ -260,7 +282,7 @@
         <div
             style="height: 30px;width:250px;background: #FFC645;border-radius: 10px;display: flex;justify-content: center;margin-top: 5px;">
             <p id="href"
-                style="height: 30px;width:150px;overflow:scroll;font-size:24px;text-align:center;color:5C5C5C;font-family: Inter;font-style: normal;font-weight: 700;"
+                style="height: 30px;width:150px;overflow:scroll;font-size:24px;text-align:center;color:5C5C5C;font-family: Inter;font-style: normal;font-weight: 700;display: inline"
                 class="bar">
             </p>
         </div>
