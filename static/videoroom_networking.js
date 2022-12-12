@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     var mic_mute_checkbox = document.querySelector("#mic_mute");
     camera_mute_checkbox.addEventListener('change', () => {
         if (!videoError) {
-            socket.emit("state-change", { "sid": myPeerID, "CorM": "C", "state": camera_enabled });
+            socket.emit("state-change", { "sid": myPeerID, "CorM": "C", "state": camera_mute_checkbox.checked });
         }
     });
     mic_mute_checkbox.addEventListener('change', function () {
         if (!audioError) {
-            socket.emit("state-change", { "sid": myPeerID, "CorM": "M", "state": camera_enabled });
+            socket.emit("state-change", { "sid": myPeerID, "CorM": "M", "state": mic_mute_checkbox.checked });
         }
     });
 });
