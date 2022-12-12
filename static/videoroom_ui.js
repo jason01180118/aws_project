@@ -84,6 +84,7 @@ function setVideoState(flag) {
     for (let i = 0; i < track.length; i++) {
         track[i].enabled = flag;
     }
+
 }
 
 function setAudioState(flag) {
