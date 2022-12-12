@@ -19,16 +19,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 console.log('Something went wrong', err);
             })
     })
-    document.getElementById("invite").addEventListener('mouseover', () => {
-        setTimeout(() => {
-            document.getElementById("qrcode").style.visibility = "visible"
-        }, "500")
-    })
-    document.getElementById("invite").addEventListener('mouseleave', () => {
-        setTimeout(() => {
-            document.getElementById("qrcode").style.visibility = "hidden"
-        }, "500")
-    })
     myVideo = document.getElementById("videoElement");
     var camera_mute_checkbox = document.querySelector("#camera_mute");
     var mic_mute_checkbox = document.querySelector("#mic_mute");
