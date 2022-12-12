@@ -1,6 +1,8 @@
 var myVideo;
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    new QRCode(document.getElementById("qrcode"), location.href);
+    console.log(document.getElementById("qrcode"))
     myVideo = document.getElementById("videoElement");
     var camera_mute_checkbox = document.querySelector("#camera_mute");
     var mic_mute_checkbox = document.querySelector("#mic_mute");
@@ -43,9 +45,10 @@ function makeVideoElement(element_id, display_name) {
     wrapper_div.id = "div_" + element_id;
     vid.id = "vid_" + element_id;
 
-    wrapper_div.className = "shadow video-item";
+    wrapper_div.className = "video-item";
     vid_wrapper.className = "vid-wrapper";
     name_text.className = "display-name";
+    vid.className = "video"
 
     vid.autoplay = true;
     name_text.innerText = display_name;
