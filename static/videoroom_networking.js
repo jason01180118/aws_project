@@ -74,6 +74,7 @@ function startCamera() {
             }
             socket.connect();
         });
+    return Promise.allSettled([promiseMedia]);
 }
 
 socket.on("connect", () => {
