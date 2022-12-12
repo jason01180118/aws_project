@@ -104,7 +104,7 @@
         .vid-wrapper {
             position: relative;
             margin: 10%;
-            background: #FFFFFF;
+            background-color: #D9D9D9;
             border: 1px solid #000000;
             border-radius: 25px;
             width: 80%;
@@ -130,7 +130,8 @@
             transition-duration: 1s;
         }
 
-        .invite:hover {
+        .invite:hover,
+        .invite:active {
             transform: translateY(-300px);
         }
     </style>
@@ -170,11 +171,11 @@
     <div style="width:100%; height:100%;">
         <div style="width:100%; height:15%;display: flex;justify-content: center;">
             <div style="width:60%; height:100%;display: flex;justify-content: center;align-items:center;">
-                <p style=" font-size: 72px; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
+                <p style=" font-size: 9vmin; font-family:inter; color: white;padding: 1%;font-weight: 900;"><span
                         style="color: #F6BB75">Z</span><span style="color: #F4F675">H</span><span
                         style="color: #75F6F6">F</span> MEET</p>
                 <p
-                    style=" font-size: 24px; font-family:inter; color: white;padding: 1%;font-weight: 900; line-height: 0.83">
+                    style=" font-size: 3vmin; font-family:inter; color: white;padding: 1%;font-weight: 900; line-height: 0.83">
                     <span style="color: #F6BB75">Z</span>ERO<br><span style="color: #F4F675">H</span>OME<br><span
                         style="color: #75F6F6">F</span>ISH
                 </p>
@@ -204,7 +205,8 @@
                                 style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;font-size: 16px;font-family:inter;color: #FFFFFF;font-weight: 400;background:#373737;"
                                 type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
                         </div>
-                        <div style=" width:80%; height:30%;background:#FFFFFF;margin-top: 5%;border-radius: 25px;">
+                        <div
+                            style=" width:80%; height:30%;background-color:#D9D9D9;margin-top: 5%;border-radius: 25px;">
                             <video autoplay="true" id="videoElement" muted
                                 style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
 
@@ -214,7 +216,7 @@
                             <div style="width:80%; height:100%;">
                                 <div style="height:50%;display: flex;align-items: center;">
                                     <p
-                                        style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                        style="font-size: 3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         鏡頭 </p>
                                     <label class="switch">
                                         <input type="checkbox" id="camera_mute" checked>
@@ -223,7 +225,7 @@
                                 </div>
                                 <div style="height:50%;display: flex;align-items: center;">
                                     <p
-                                        style="font-size: 32px;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
+                                        style="font-size:3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
                                         麥克風</p>
                                     <label class="switch">
                                         <input type="checkbox" id="mic_mute" checked>
