@@ -147,6 +147,10 @@
         var camera_enabled = "{{video_enabled}}" == "1";
         var audioError = false;
         var videoError = false;
+        // socketio 
+        var protocol = window.location.protocol;
+        var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
+
     </script>
     <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
