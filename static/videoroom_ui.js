@@ -1,5 +1,4 @@
 var myVideo;
-
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
         text: location.href,
