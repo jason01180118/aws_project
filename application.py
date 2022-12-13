@@ -1,7 +1,7 @@
 from flask import Flask, request, session
 import os
 import time
-from router import index,  index, chatroom_added
+from router import index,  index, videoroom_added
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
 # Next two lines are for the issue: https://github.com/miguelgrinberg/python-engineio/issues/142
@@ -24,7 +24,7 @@ application.add_url_rule('/', 'index',
                          index, methods=['GET', 'POST'])
 
 application.add_url_rule('/videoroom/<string:room_id>', 'videoroom',
-                         chatroom_added, methods=['GET', 'POST'])
+                         videoroom_added, methods=['GET', 'POST'])
 
 
 def messageReceived(methods=['GET', 'POST']):

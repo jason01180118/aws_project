@@ -142,13 +142,14 @@ function setOtherUserAudioState(peer_id, flag) {//需要加上別的用戶關閉
 }
 
 function makeChatElement(sender, msg) {
+    let now = new Date();
     let msg_div = document.createElement("div");
     let msg_p = document.createElement("p");
 
     msg_div.className = "msg_div bar";
     msg_p.className = "msg_p";
 
-    msg_p.innerText = sender + ':' + msg;
+    msg_p.innerText = sender + ' 在 '+ now.getHours() + ':' + now.getMinutes() + ' 時 說：\n' + msg;
 
     msg_div.appendChild(msg_p);
 
@@ -158,4 +159,5 @@ function makeChatElement(sender, msg) {
 function newChatMsg(sender, msg) {//需要加上顯示新訊息
     console.log(sender + " says: " + msg);
     document.querySelector("div.chat_holder").append(makeChatElement(sender, msg));
+    document.querySelector("div.chat_holder").scrollTop = document.querySelector("div.chat_holder").scrollHeight
 }
