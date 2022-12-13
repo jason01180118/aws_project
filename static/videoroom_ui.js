@@ -1,7 +1,7 @@
 var myVideo;
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
-        text: location.href,
+        text: 'https://reurl.cc/eWpY5M',
         width: 128,
         height: 128,
         colorDark: "#000000",
