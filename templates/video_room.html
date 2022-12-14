@@ -63,66 +63,6 @@
             border-radius: 50px;
         }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 20px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 14px;
-            width: 14px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        input:checked+.slider {
-            background-color: #2196F3;
-        }
-
-        input:focus+.slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked+.slider:before {
-            -webkit-transform: translateX(38px);
-            -ms-transform: translateX(38px);
-            transform: translateX(38px);
-        }
-
-        /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
-        }
-
-        .slider.round:before {
-            border-radius: 50%;
-        }
-
         .video-item {
             position: relative;
             width: 100%;
@@ -224,7 +164,7 @@
                                     type="text" id="msg" name="msg" placeholder="Type somethings here" />
                             </div>
                             <img id="msgsend" style="position:absolute;top:35.5%;right:16%;max-width:5%;max-height:5%"
-                                src="../static/send.png">
+                                src="../static/images/send.png">
                         </div>
                         <div
                             style=" width:80%; height:30%;background-color:#D9D9D9;margin-top: 5%;border-radius: 25px;">
@@ -233,30 +173,22 @@
 
                             </video>
                         </div>
-                        <div style="width:80%; height:10%;margin-top: 5%;display: flex;align-items: center;">
-                            <div style="width:80%; height:100%;">
-                                <div style="height:50%;display: flex;align-items: center;">
-                                    <p
-                                        style="font-size: 3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
-                                        鏡頭 </p>
-                                    <label class="switch">
-                                        <input type="checkbox" id="camera_mute" checked>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                                <div style="height:50%;display: flex;align-items: center;">
-                                    <p
-                                        style="font-size:3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
-                                        麥克風</p>
-                                    <label class="switch">
-                                        <input type="checkbox" id="mic_mute" checked>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
+                        <div style="width:70%; height:10%;margin-top: 5%;display: flex;align-items: center;">
+                            <div style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img id="mic_mute" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/mic-on.png" />
                             </div>
-                            <div id="call_end" style="width:20%; height:80%;display: flex;align-items: center;">
-                                <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;"
-                                    src="../static/phone.png" />
+                            <div style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img id="camera_mute" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/camera-on.png" />
+                            </div>
+                            <div style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img id="share" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/share-off.png" />
+                            </div>
+                            <div id="call_end" style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/phone.png" />
                             </div>
                         </div>
                     </div>
@@ -285,7 +217,7 @@
                 class="bar">
             </p>
         </div>
-        <img id="copyhref" src="../static/copy.png"
+        <img id="copyhref" src="../static/images/copy.png"
             style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
     </div>
 </body>
