@@ -1,4 +1,6 @@
 var myVideo;
+var share_enabled = false;
+
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
         text: 'https://reurl.cc/eWpY5M',
@@ -32,33 +34,39 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     }
     myVideo = document.getElementById("videoElement");
-    var camera_mute_checkbox = document.querySelector("#camera_mute");
-    var mic_mute_checkbox = document.querySelector("#mic_mute");
+    var camera_image = document.querySelector("#camera_mute");
+    var mic_image = document.querySelector("#mic_mute");
+    var share_image = document.querySelector("#share");
     var callEndBttn = document.getElementById("call_end");
     var chat_submit_btn = document.getElementById("msgsend");//需要加上串接聊天訊息提交按鈕
 
-    camera_mute_checkbox.addEventListener('change', () => {
+    camera_image.addEventListener('click', () => {
         if (!videoError) {
-            camera_enabled = camera_mute_checkbox.checked;
+            camera_enabled = !camera_enabled;
+            camera_image.src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
             setVideoState(camera_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
         }
         else {
-            camera_mute_checkbox.checked = false;
             alert("Error! Your camera can not be accessed!");
         }
     });
 
-    mic_mute_checkbox.addEventListener('change', function () {
+    mic_image.addEventListener('click', function () {
         if (!audioError) {
-            mic_enabled = mic_mute_checkbox.checked;
+            mic_enabled = !mic_enabled;
+            mic_image.src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             setAudioState(mic_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
         }
         else {
-            mic_mute_checkbox.checked = false;
             alert("Error! Your mic can not be accessed!");
         }
+    });
+
+    share_image.addEventListener('click', () => {
+        share_enabled = !share_enabled;
+        share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
     });
 
     callEndBttn.addEventListener("click", (event) => {

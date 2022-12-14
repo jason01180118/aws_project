@@ -64,8 +64,8 @@ function startCamera() {
             if (audioError) {
                 mic_enabled = false;
             }
-            document.querySelector("#camera_mute").checked = camera_enabled;
-            document.querySelector("#mic_mute").checked = mic_enabled;
+            document.querySelector("#camera_mute").src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
+            document.querySelector("#mic_mute").src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             if (media_allowed) {
                 setVideoState(camera_enabled);
                 setAudioState(mic_enabled);
