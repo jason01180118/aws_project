@@ -30,6 +30,38 @@
             -webkit-border-radius: 50px;
             border-radius: 50px;
         }
+        .video_frame{
+            position: relative;
+            background: #373737;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            border-radius: 25px;
+            padding: 1px;
+            background: #373737;
+        }
+        .video{
+            border-radius: 25px;
+        }
+        .name_tag{
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background: #373737;
+            border-radius: 20px;
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            gap: 9px;
+            color: #FFFFFF;
+            left: 15px;
+            bottom: 10px;
+        }
     </style>
 
     <script type="text/javascript">
@@ -71,11 +103,14 @@
                 </div>
                 <div style="width:100%; height:88%;display: flex;justify-content: space-evenly;align-items: center;">
                     <div
-                        style="width:50%; height:80%; display: flex;justify-content: center;align-content: center;background-color:#D9D9D9;border-radius: 25px;">
+                        class= "video_frame" style="width:50%; height:80%; ">
                         <video autoplay="true" id="videoElement" muted
                             style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
-
                         </video>
+                        <div class="name_tag">
+                            <div class="circle" style="width:15px; height:15px; background: #FFC645;margin: 1%;"></div>
+                            YOU
+                        </div>
                     </div>
                     <div style="width:30%; height:75%;display: flex;flex-direction: column;align-content: center;">
                         <form action="" method="POST">
