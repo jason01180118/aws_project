@@ -27,8 +27,8 @@
         var myName = "{{username}}";
         var mic_enabled = "{{audio_enabled}}" == "1";
         var camera_enabled = "{{video_enabled}}" == "1";
-        var screen_share = "{{screen_share}}";
-        
+        var screen_share = "{{screen_share}}" == "1";
+
         var audioError = false;
         var videoError = false;
         function log_error(e) { console.log(`"[ERROR] ${e.name}: ${e.message}`); }
@@ -227,7 +227,12 @@
         <img id="copyhref" src="../static/images/copy.png"
             style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
     </div>
-    <a href="http://127.0.0.1:5000/videoroom/123?share=1&username={{username}}" style="position:fixed;top:0;left:0;height:10%;width:10%" target="_blank"></a>
+    <form id="share_screen_form" action="" method="POST" target="_blank">
+        <input type="hidden" value="1" name="audio_enabled" id="audio_enabled_inp">
+        <input type="hidden" value="1" name="video_enabled" id="video_enabled_inp">
+        <input type="hidden" value={{username}} name="username">
+        <input type="hidden" value="1" name="share_inp">
+    </form>
 </body>
 
 </html>

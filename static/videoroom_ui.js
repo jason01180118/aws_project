@@ -67,10 +67,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     share_image.addEventListener('click', () => {
         share_enabled = !share_enabled;
         share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
-        share_btn = document.createElement("a");
-        share_btn.href=`${location.protocol}//${location.host}${location.pathname}?share=1&username=${myName}`;
-        share_btn.target = "_blank";
-        share_btn.click();
+        share_btn = document.getElementById("share_screen_form");
+        share_btn.submit();
     });
 
     callEndBttn.addEventListener("click", (event) => {

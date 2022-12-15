@@ -15,7 +15,7 @@ var audioConstraints = {
 };
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    if(screen_share==1){
+    if(screen_share){
         startScreenCapture();
     }
     else{
