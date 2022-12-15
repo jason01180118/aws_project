@@ -208,7 +208,7 @@ function handleNewICECandidateMsg(msg) {
 function handleTrackEvent(event, peer_id) {
     console.log(`track event recieved from <${peer_id}>`);
 
-    if (event.streams) {
+    if (event.streams && screen_share == 0) {
         getVideoObj(peer_id).srcObject = event.streams[0];
     }
 }
