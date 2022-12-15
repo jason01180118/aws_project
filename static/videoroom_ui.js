@@ -1,5 +1,4 @@
 var myVideo;
-var share_enabled = false;
 
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     myVideo = document.querySelector("#videoElement");
     var camera_image = document.querySelector("#camera_mute");
     var mic_image = document.querySelector("#mic_mute");
-    var share_image = document.querySelector("#share");
     var callEndBttn = document.querySelector("#call_end");
     var chat_submit_btn = document.querySelector("#msgsend");
 
@@ -62,13 +60,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         else {
             alert("Error! Your mic can not be accessed!");
         }
-    });
-
-    share_image.addEventListener('click', () => {
-        share_enabled = !share_enabled;
-        share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
-        share_btn = document.getElementById("share_screen_form");
-        share_btn.submit();
     });
 
     callEndBttn.addEventListener("click", (event) => {
@@ -169,4 +160,16 @@ function makeChatElement(sender, msg) {
 function newChatMsg(sender, msg) {
     document.querySelector("div.chat_holder").append(makeChatElement(sender, msg));
     document.querySelector("div.chat_holder").scrollTop = document.querySelector("div.chat_holder").scrollHeight
+}
+
+function isMobileDevice() {
+    var mobileDevices = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows Phone']
+    var isMobileDevice = false
+    for (var i = 0; i < mobileDevices.length; i++) {
+        if (navigator.userAgent.match(mobileDevices[i])) {
+            isMobileDevice = true
+        }
+    }
+    console.log(isMobileDevice)
+    return isMobileDevice
 }

@@ -1,4 +1,5 @@
 var media_allowed = true;
+var share_enabled = false;
 var mediaConstraints = {
     audio: true,
     video: {
@@ -17,9 +18,37 @@ var audioConstraints = {
 document.addEventListener("DOMContentLoaded", (event) => {
     if(screen_share){
         startScreenCapture();
-    }
-    else{
+    } else{
         startCamera();
+    }
+
+    var share_image = document.querySelector("#share");
+
+    if(isMobileDevice()) {
+        share_image.addEventListener('touchstart', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+        });
+    
+        share_image.addEventListener('touchend', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            alert("This feature is currently unavailable on mobile devices!");
+        });
+    } else {
+        share_image.addEventListener('mousedown', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+        });
+    
+        share_image.addEventListener('mouseup', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            share_btn = document.createElement("a");
+            share_btn.href=`${location.protocol}//${location.host}${location.pathname}?share=1&username=${myName}`;
+            share_btn.target = "_blank";
+            share_btn.click();
+        });
     }
 });
 
