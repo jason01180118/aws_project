@@ -1,6 +1,7 @@
 var myPeerID;
 var _peer_list = {};
 var media_allowed = true;
+function log_error(e) { console.log(`"[ERROR] ${e.name}: ${e.message}`); }
 
 document.addEventListener("DOMContentLoaded", (event) => {
     startCamera();
@@ -33,7 +34,7 @@ function startCamera() {
                     })
                     .catch((e) => {
                         audioError = true;
-                        console.log(e.name, e.message);
+                        log_error(e);
                     });
                 const promiseVideo = navigator.mediaDevices.getUserMedia(videoConstraints)
                     .then((stream) => {
@@ -41,7 +42,7 @@ function startCamera() {
                     })
                     .catch((e) => {
                         videoError = true;
-                        console.log(e.name, e.message);
+                        log_error(e);
                     });
                 return Promise.allSettled([promiseAudio, promiseVideo]);
             }
@@ -49,10 +50,11 @@ function startCamera() {
                 media_allowed = false;
                 audioError = true;
                 videoError = true;
-                console.log(e.name, e.message);
+                document.querySelector("#videoElement").srcObject = new MediaStream();
+                log_error(e);
             }
             else {
-                console.log(e.name, e.message);
+                log_error(e);
             }
         })
         .then(() => {
@@ -62,8 +64,8 @@ function startCamera() {
             if (audioError) {
                 mic_enabled = false;
             }
-            document.querySelector("#camera_mute").checked = camera_enabled;
-            document.querySelector("#mic_mute").checked = mic_enabled;
+            document.querySelector("#camera_mute").src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
+            document.querySelector("#mic_mute").src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             if (media_allowed) {
                 setVideoState(camera_enabled);
                 setAudioState(mic_enabled);
@@ -87,6 +89,7 @@ socket.on("user-connect", (data) => {
 socket.on("user-disconnect", (data) => {
     console.log("user-disconnect ", data);
     let peer_id = data["sid"];
+
     closeConnection(peer_id);
     removeVideoElement(peer_id);
 });
@@ -153,7 +156,6 @@ var PC_CONFIG = {
     ]
 };
 
-function log_error(e) { console.log("[ERROR] ", e); }
 function sendViaServer(data) { socket.emit("data", data); }
 
 socket.on("data", (msg) => {
@@ -185,7 +187,16 @@ function invite(peer_id) {
         createPeerConnection(peer_id);
 
         let local_stream = myVideo.srcObject;
-        local_stream.getTracks().forEach((track) => { _peer_list[peer_id].addTrack(track, local_stream); });
+        console.log(`sending track to <${peer_id}>`)
+        if (local_stream.getTracks().length == 0) {
+            _peer_list[peer_id].addTransceiver("audio");
+            _peer_list[peer_id].addTransceiver("video");
+        }
+        else {
+            local_stream.getTracks().forEach((track) => {
+                _peer_list[peer_id].addTrack(track, local_stream);
+            });
+        }
     }
 }
 
@@ -200,7 +211,9 @@ function createPeerConnection(peer_id) {
 
 function handleNegotiationNeededEvent(peer_id) {
     _peer_list[peer_id].createOffer()
-        .then((offer) => { return _peer_list[peer_id].setLocalDescription(offer); })
+        .then((offer) => {
+            return _peer_list[peer_id].setLocalDescription(offer);
+        })
         .then(() => {
             console.log(`sending offer to <${peer_id}> ...`);
             sendViaServer({

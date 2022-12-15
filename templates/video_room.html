@@ -7,6 +7,34 @@
 
     <!-- icon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <!-- Socket.IO 的 CDN 連結 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
+        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- jQuery library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+    <script type="text/javascript">
+        var myRoomID = "{{room_id}}";
+        var myName = "{{username}}";
+        var mic_enabled = "{{audio_enabled}}" == "1";
+        var camera_enabled = "{{video_enabled}}" == "1";
+        var audioError = false;
+        var videoError = false;
+        // socketio 
+        var protocol = window.location.protocol;
+        var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
+    </script>
+    <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
+    <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
 
     <style>
         p {
@@ -33,66 +61,6 @@
             -moz-border-radius: 50px;
             -webkit-border-radius: 50px;
             border-radius: 50px;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
-        }
-
-        input:checked+.slider {
-            background-color: #2196F3;
-        }
-
-        input:focus+.slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked+.slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
-        }
-
-        .slider.round:before {
-            border-radius: 50%;
         }
 
         .video-item {
@@ -124,6 +92,23 @@
             height: 100%;
         }
 
+        .msg_div {
+            width: 94%;
+            overflow: scroll;
+            display: inline;
+        }
+
+        .msg_p {
+            margin: 5%;
+            color: #FFFFFF;
+            font-size: 2vmin;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            word-break: break-all;
+        }
+
         .invite {
             bottom: -260px;
             left: 10%;
@@ -135,36 +120,6 @@
             transform: translateY(-300px);
         }
     </style>
-
-    <!-- Socket.IO 的 CDN 連結 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"
-        integrity="sha512-WL6WGKMPBiM9PnHRYIn5YEtq0Z8XP4fkVb4qy7PP4vhmYQErJ/dySyXuFIMDf1eEYCXCrQrMJfkNwKc9gsjTjA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- jQuery library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-
-    <script type="text/javascript">
-        var myRoomID = "{{room_id}}";
-        var myName = "{{username}}";
-        var mic_enabled = "{{audio_enabled}}" == "1";
-        var camera_enabled = "{{video_enabled}}" == "1";
-        var audioError = false;
-        var videoError = false;
-        // socketio 
-        var protocol = window.location.protocol;
-        var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
-
-    </script>
-    <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
-    <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
 </head>
 
 <body style="height:100%;">
@@ -197,13 +152,19 @@
                             class="user_holder bar">
                         </div>
                     </div>
-                    <div style="width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
+                    <div
+                        style="position:relative;width:25%; height:100%;display: flex;flex-direction: column;align-items: center;">
                         <div style="width:80%; height:40%;background:#373737;border: 1px solid #FFFFFF;
                         border-radius: 25px;display: flex;flex-direction: column;align-items: center;">
-                            <div style="height:85%;width:100%; " class="chat_holder"></div>
-                            <input
-                                style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;font-size: 16px;font-family:inter;color: #FFFFFF;font-weight: 400;background:#373737;"
-                                type="text" name="room" class="roomname" placeholder="ROOM ID / NAME" />
+                            <div style="height:85%;width:100%;overflow: scroll; " class="chat_holder bar"></div>
+                            <div
+                                style="height:12%;width:95%;border: 1px solid #FFFFFF;border-radius: 25px;background-color:#373737;display: flex;align-items: center;">
+                                <input
+                                    style="margin-left:5%;border:none;height:60%;width:75%;font-size: 2vmin;font-family:inter;color: #FFFFFF;font-weight: 400;background-color:#373737;"
+                                    type="text" id="msg" name="msg" placeholder="Type somethings here" />
+                            </div>
+                            <img id="msgsend" style="position:absolute;top:35.5%;right:16%;max-width:5%;max-height:5%"
+                                src="../static/images/send.png">
                         </div>
                         <div
                             style=" width:80%; height:30%;background-color:#D9D9D9;margin-top: 5%;border-radius: 25px;">
@@ -212,30 +173,22 @@
 
                             </video>
                         </div>
-                        <div style="width:80%; height:10%;margin-top: 5%;display: flex;align-items: center;">
-                            <div style="width:80%; height:100%;">
-                                <div style="height:50%;display: flex;align-items: center;">
-                                    <p
-                                        style="font-size: 3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
-                                        鏡頭 </p>
-                                    <label class="switch">
-                                        <input type="checkbox" id="camera_mute" checked>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
-                                <div style="height:50%;display: flex;align-items: center;">
-                                    <p
-                                        style="font-size:3vmin;font-family:inter;color: white;text-align:center;font-weight: 700;margin-right:5%;">
-                                        麥克風</p>
-                                    <label class="switch">
-                                        <input type="checkbox" id="mic_mute" checked>
-                                        <span class="slider round"></span>
-                                    </label>
-                                </div>
+                        <div style="width:70%; height:10%;margin-top: 5%;display: flex;align-items: center;">
+                            <div style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img id="mic_mute" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/mic-on.png" />
                             </div>
-                            <div id="call_end" style="width:20%; height:80%;display: flex;align-items: center;">
-                                <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;"
-                                    src="../static/phone.png" />
+                            <div style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img id="camera_mute" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/camera-on.png" />
+                            </div>
+                            <div style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img id="share" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/share-off.png" />
+                            </div>
+                            <div id="call_end" style="width:25%; height:80%;display: flex;align-items: center;">
+                                <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                    src="../static/images/phone.png" />
                             </div>
                         </div>
                     </div>
@@ -260,11 +213,11 @@
         <div
             style="height: 30px;width:250px;background: #FFC645;border-radius: 10px;display: flex;justify-content: center;margin-top: 5px;">
             <p id="href"
-                style="height: 30px;width:150px;overflow:scroll;font-size:24px;text-align:center;color:5C5C5C;font-family: Inter;font-style: normal;font-weight: 700;"
+                style="height: 30px;width:150px;overflow:scroll;font-size:24px;text-align:center;color:5C5C5C;font-family: Inter;font-style: normal;font-weight: 700;display: inline"
                 class="bar">
             </p>
         </div>
-        <img id="copyhref" src="../static/copy.png"
+        <img id="copyhref" src="../static/images/copy.png"
             style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
     </div>
 </body>

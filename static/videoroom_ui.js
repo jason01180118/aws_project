@@ -1,7 +1,9 @@
 var myVideo;
+var share_enabled = false;
+
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
-        text: location.href,
+        text: 'https://reurl.cc/eWpY5M',
         width: 128,
         height: 128,
         colorDark: "#000000",
@@ -18,34 +20,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 console.log('Something went wrong', err);
             })
     })
+    document.getElementById("msg").addEventListener('focus', () => {
+        document.addEventListener('keydown', detectKey)
+    })
+    document.getElementById("msg").addEventListener('focusout', () => {
+        document.removeEventListener('keydown', detectKey)
+    })
+    function detectKey(key) {
+        if (key.key === 'Enter') {
+            var chat_msg = document.getElementById("msg").value;//需要加上串接聊天訊息內容
+            document.getElementById("msg").value = ''
+            socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
+        }
+    }
     myVideo = document.getElementById("videoElement");
-    var camera_mute_checkbox = document.querySelector("#camera_mute");
-    var mic_mute_checkbox = document.querySelector("#mic_mute");
+    var camera_image = document.querySelector("#camera_mute");
+    var mic_image = document.querySelector("#mic_mute");
+    var share_image = document.querySelector("#share");
     var callEndBttn = document.getElementById("call_end");
-    var chat_submit_btn;//需要加上串接聊天訊息提交按鈕
+    var chat_submit_btn = document.getElementById("msgsend");//需要加上串接聊天訊息提交按鈕
 
-    camera_mute_checkbox.addEventListener('change', () => {
+    camera_image.addEventListener('click', () => {
         if (!videoError) {
-            camera_enabled = camera_mute_checkbox.checked;
+            camera_enabled = !camera_enabled;
+            camera_image.src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
             setVideoState(camera_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
         }
         else {
-            camera_mute_checkbox.checked = false;
             alert("Error! Your camera can not be accessed!");
         }
     });
 
-    mic_mute_checkbox.addEventListener('change', function () {
+    mic_image.addEventListener('click', function () {
         if (!audioError) {
-            mic_enabled = mic_mute_checkbox.checked;
+            mic_enabled = !mic_enabled;
+            mic_image.src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             setAudioState(mic_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
         }
         else {
-            mic_mute_checkbox.checked = false;
             alert("Error! Your mic can not be accessed!");
         }
+    });
+
+    share_image.addEventListener('click', () => {
+        share_enabled = !share_enabled;
+        share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
     });
 
     callEndBttn.addEventListener("click", (event) => {
@@ -53,7 +74,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     chat_submit_btn.addEventListener('click', () => {
-        var chat_msg = "123";//需要加上串接聊天訊息內容
+        var chat_msg = document.getElementById("msg").value;//需要加上串接聊天訊息內容
+        document.getElementById("msg").value = ''
         socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
     });
 });
@@ -127,6 +149,23 @@ function setOtherUserAudioState(peer_id, flag) {//需要加上別的用戶關閉
     console.log(peer_id + " mic state change to " + flag);
 }
 
+function makeChatElement(sender, msg) {
+    let now = new Date();
+    let msg_div = document.createElement("div");
+    let msg_p = document.createElement("p");
+
+    msg_div.className = "msg_div bar";
+    msg_p.className = "msg_p";
+
+    msg_p.innerText = sender + ' 在 '+ now.getHours() + ':' + now.getMinutes() + ' 時 說：\n' + msg;
+
+    msg_div.appendChild(msg_p);
+
+    return msg_div;
+}
+
 function newChatMsg(sender, msg) {//需要加上顯示新訊息
     console.log(sender + " says: " + msg);
+    document.querySelector("div.chat_holder").append(makeChatElement(sender, msg));
+    document.querySelector("div.chat_holder").scrollTop = document.querySelector("div.chat_holder").scrollHeight
 }

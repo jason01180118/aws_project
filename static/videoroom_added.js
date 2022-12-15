@@ -1,6 +1,8 @@
 var media_allowed = true;
 var audioError = false;
 var videoError = false;
+var mic_enabled = true;
+var camera_enabled = true;
 
 function startCamera() {
     var mediaConstraints = {
@@ -53,11 +55,13 @@ function startCamera() {
         })
         .then(() => {
             if (audioError) {
-                document.querySelector("#mic_mute").checked = false;
+                mic_enabled = false;
+                document.querySelector("#mic_mute").src = "../../static/images/mic-off.png";
                 document.getElementById("audio_enabled_inp").value = false;
             }
             if (videoError) {
-                document.querySelector("#camera_mute").checked = false;
+                camera_enabled = false;
+                document.querySelector("#camera_mute").src = "../../static/images/camera-off.png";
                 document.getElementById("video_enabled_inp").value = false;
             }
         });
@@ -85,33 +89,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // 當document被完整的讀取跟解析後就會被觸發
     var audioEnabledField = document.getElementById("audio_enabled_inp");
     var videoEnabledField = document.getElementById("video_enabled_inp");
-    var camera_mute_checkbox = document.querySelector("#camera_mute");
-    var mic_mute_checkbox = document.querySelector("#mic_mute");
-    var camera_enabled = camera_mute_checkbox.checked;
-    var mic_enabled = mic_mute_checkbox.checked;
+    var camera_image = document.querySelector("#camera_mute");
+    var mic_image = document.querySelector("#mic_mute");
 
     startCamera();
 
-    camera_mute_checkbox.addEventListener('change', () => {
+    camera_image.addEventListener('click', () => {
         if (!videoError) {
-            camera_enabled = camera_mute_checkbox.checked;
+            camera_enabled = !camera_enabled;
+            camera_image.src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
             videoEnabledField.value = (camera_enabled) ? "1" : "0";
             setVideoState(camera_enabled);
         }
         else {
-            camera_mute_checkbox.checked = false;
             alert("Error! Your camera can not be accessed!");
         }
     });
 
-    mic_mute_checkbox.addEventListener('change', () => {
+    mic_image.addEventListener('click', () => {
         if (!audioError) {
-            mic_enabled = mic_mute_checkbox.checked;
+            mic_enabled = !mic_enabled;
+            mic_image.src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             audioEnabledField.value = (mic_enabled) ? "1" : "0";
             setAudioState(mic_enabled);
         }
         else {
-            mic_mute_checkbox.checked = false;
             alert("Error! Your mic can not be accessed!");
         }
     });
