@@ -1,4 +1,5 @@
 var myVideo;
+var share_enabled = false;
 
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     var mic_image = document.querySelector("#mic_mute");
     var callEndBttn = document.querySelector("#call_end");
     var chat_submit_btn = document.querySelector("#msgsend");
+    var share_image = document.querySelector("#share");
 
     camera_image.addEventListener('click', () => {
         if (!videoError) {
@@ -61,6 +63,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
             alert("Error! Your mic can not be accessed!");
         }
     });
+
+    if(isMobileDevice()) {
+        share_image.addEventListener('touchstart', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+        });
+    
+        share_image.addEventListener('touchend', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            alert("This feature is currently unavailable on mobile devices!");
+        });
+    } else {
+        share_image.addEventListener('mousedown', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+        });
+    
+        share_image.addEventListener('mouseup', () => {
+            share_enabled = !share_enabled;
+            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            share_form = document.getElementById("share_screen_form");
+            share_form.submit();
+        });
+    }
 
     callEndBttn.addEventListener("click", (event) => {
         window.location.replace("/");
