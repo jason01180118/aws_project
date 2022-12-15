@@ -3,16 +3,16 @@ var share_enabled = false;
 
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
-        text: 'https://reurl.cc/eWpY5M',
+        text: `${location.protocol}//${location.host}${location.pathname}`,
         width: 128,
         height: 128,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
     });
-    document.getElementById("href").innerText = location.href
+    document.getElementById("href").innerText = `${location.protocol}//${location.host}${location.pathname}`
     document.getElementById("copyhref").addEventListener('click', () => {
-        navigator.clipboard.writeText(location.href)
+        navigator.clipboard.writeText(`${location.protocol}//${location.host}${location.pathname}`)
             .then(() => {
                 console.log("Text copied to clipboard...")
             })
@@ -28,17 +28,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
     function detectKey(key) {
         if (key.key === 'Enter') {
-            var chat_msg = document.getElementById("msg").value;//需要加上串接聊天訊息內容
+            var chat_msg = document.getElementById("msg").value;
             document.getElementById("msg").value = ''
             socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
         }
     }
-    myVideo = document.getElementById("videoElement");
+    myVideo = document.querySelector("#videoElement");
     var camera_image = document.querySelector("#camera_mute");
     var mic_image = document.querySelector("#mic_mute");
     var share_image = document.querySelector("#share");
-    var callEndBttn = document.getElementById("call_end");
-    var chat_submit_btn = document.getElementById("msgsend");//需要加上串接聊天訊息提交按鈕
+    var callEndBttn = document.querySelector("#call_end");
+    var chat_submit_btn = document.querySelector("#msgsend");
 
     camera_image.addEventListener('click', () => {
         if (!videoError) {
@@ -67,6 +67,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     share_image.addEventListener('click', () => {
         share_enabled = !share_enabled;
         share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+        share_btn = document.createElement("a");
+        share_btn.href=`${location.protocol}//${location.host}${location.pathname}?share=1&username=${myName}`;
+        share_btn.target = "_blank";
+        share_btn.click();
     });
 
     callEndBttn.addEventListener("click", (event) => {
@@ -74,7 +78,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     chat_submit_btn.addEventListener('click', () => {
-        var chat_msg = document.getElementById("msg").value;//需要加上串接聊天訊息內容
+        var chat_msg = document.getElementById("msg").value;
         document.getElementById("msg").value = ''
         socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
     });
@@ -164,8 +168,7 @@ function makeChatElement(sender, msg) {
     return msg_div;
 }
 
-function newChatMsg(sender, msg) {//需要加上顯示新訊息
-    console.log(sender + " says: " + msg);
+function newChatMsg(sender, msg) {
     document.querySelector("div.chat_holder").append(makeChatElement(sender, msg));
     document.querySelector("div.chat_holder").scrollTop = document.querySelector("div.chat_holder").scrollHeight
 }

@@ -1,79 +1,5 @@
 var myPeerID;
 var _peer_list = {};
-var media_allowed = true;
-function log_error(e) { console.log(`"[ERROR] ${e.name}: ${e.message}`); }
-
-document.addEventListener("DOMContentLoaded", (event) => {
-    startCamera();
-});
-
-function startCamera() {
-    var mediaConstraints = {
-        audio: true,
-        video: {
-            height: 360
-        }
-    };
-    var videoConstraints = {
-        video: {
-            height: 360
-        }
-    };
-    var audioConstraints = {
-        audio: true
-    };
-    const promiseMedia = navigator.mediaDevices.getUserMedia(mediaConstraints)
-        .then((stream) => {
-            document.querySelector("#videoElement").srcObject = stream;
-        })
-        .catch((e) => {
-            if (e.name == "NotReadableError") {
-                const promiseAudio = navigator.mediaDevices.getUserMedia(audioConstraints)
-                    .then((stream) => {
-                        document.querySelector("#videoElement").srcObject = stream;
-                    })
-                    .catch((e) => {
-                        audioError = true;
-                        log_error(e);
-                    });
-                const promiseVideo = navigator.mediaDevices.getUserMedia(videoConstraints)
-                    .then((stream) => {
-                        document.querySelector("#videoElement").srcObject = stream;
-                    })
-                    .catch((e) => {
-                        videoError = true;
-                        log_error(e);
-                    });
-                return Promise.allSettled([promiseAudio, promiseVideo]);
-            }
-            else if (e.name == "NotAllowedError") {
-                media_allowed = false;
-                audioError = true;
-                videoError = true;
-                document.querySelector("#videoElement").srcObject = new MediaStream();
-                log_error(e);
-            }
-            else {
-                log_error(e);
-            }
-        })
-        .then(() => {
-            if (videoError) {
-                camera_enabled = false;
-            }
-            if (audioError) {
-                mic_enabled = false;
-            }
-            document.querySelector("#camera_mute").src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
-            document.querySelector("#mic_mute").src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
-            if (media_allowed) {
-                setVideoState(camera_enabled);
-                setAudioState(mic_enabled);
-            }
-            socket.connect();
-        });
-    return Promise.allSettled([promiseMedia]);
-}
 
 socket.on("connect", () => {
     console.log("socket connected....");
@@ -189,8 +115,8 @@ function invite(peer_id) {
         let local_stream = myVideo.srcObject;
         console.log(`sending track to <${peer_id}>`)
         if (local_stream.getTracks().length == 0) {
-            _peer_list[peer_id].addTransceiver("audio");
-            _peer_list[peer_id].addTransceiver("video");
+            _peer_list[peer_id].addTransceiver("audio", { streams: [local_stream] });
+            _peer_list[peer_id].addTransceiver("video", { streams: [local_stream] });
         }
         else {
             local_stream.getTracks().forEach((track) => {

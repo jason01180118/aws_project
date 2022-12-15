@@ -27,13 +27,17 @@
         var myName = "{{username}}";
         var mic_enabled = "{{audio_enabled}}" == "1";
         var camera_enabled = "{{video_enabled}}" == "1";
+        var screen_share = "{{screen_share}}";
+        
         var audioError = false;
         var videoError = false;
+        function log_error(e) { console.log(`"[ERROR] ${e.name}: ${e.message}`); }
         // socketio 
         var protocol = window.location.protocol;
         var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
     </script>
     <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
+    <script src="{{ url_for('static', filename='videoroom_mediaAccessing.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
 
     <style>
@@ -175,15 +179,18 @@
                         </div>
                         <div style="width:70%; height:10%;margin-top: 5%;display: flex;align-items: center;">
                             <div style="width:25%; height:80%;display: flex;align-items: center;">
-                                <img id="mic_mute" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                <img id="mic_mute"
+                                    style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
                                     src="../static/images/mic-on.png" />
                             </div>
                             <div style="width:25%; height:80%;display: flex;align-items: center;">
-                                <img id="camera_mute" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                <img id="camera_mute"
+                                    style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
                                     src="../static/images/camera-on.png" />
                             </div>
                             <div style="width:25%; height:80%;display: flex;align-items: center;">
-                                <img id="share" style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
+                                <img id="share"
+                                    style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
                                     src="../static/images/share-off.png" />
                             </div>
                             <div id="call_end" style="width:25%; height:80%;display: flex;align-items: center;">
@@ -220,6 +227,7 @@
         <img id="copyhref" src="../static/images/copy.png"
             style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
     </div>
+    <a href="http://127.0.0.1:5000/videoroom/123?share=1&username={{username}}" style="position:fixed;top:0;left:0;height:10%;width:10%" target="_blank"></a>
 </body>
 
 </html>
