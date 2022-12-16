@@ -84,7 +84,6 @@ function setAudioState(flag) {
     }
 }
 
-
 document.addEventListener("DOMContentLoaded", (event) => {
     // 當document被完整的讀取跟解析後就會被觸發
     var audioEnabledField = document.getElementById("audio_enabled_inp");
