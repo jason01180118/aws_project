@@ -19,6 +19,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     document.getElementById("msg").addEventListener('focus', () => {
         document.addEventListener('keydown', detectKey)
+        document.getElementById("msg").addEventListener("compositionstart", function chinput() {
+            document.removeEventListener('keydown', detectKey)
+            document.getElementById("msg").addEventListener("compositionend", function chinputend() {
+                document.getElementById("msg").removeEventListener("compositionstart", chinput)
+                document.getElementById("msg").removeEventListener("compositionend", chinputend)
+                document.addEventListener('keydown', detectKey)
+            })
+        })
     })
     document.getElementById("msg").addEventListener('focusout', () => {
         document.removeEventListener('keydown', detectKey)
