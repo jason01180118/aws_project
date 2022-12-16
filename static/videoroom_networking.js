@@ -10,6 +10,8 @@ socket.on("user-connect", (data) => {
     if (!screen_share) {
         addVideoElement(peer_id, display_name);
     }
+    socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
+    socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
 });
 socket.on("user-disconnect", (data) => {
     console.log("user-disconnect ", data);
