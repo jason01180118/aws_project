@@ -1,6 +1,3 @@
-var element_ids = []
-var selected = false
-
 document.addEventListener("DOMContentLoaded", (event) => {
     let current_url = `${location.protocol}//${location.host}${location.pathname}`;
     new QRCode(document.getElementById("qrcode"), {
@@ -117,7 +114,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 function addVideoElement(element_id, display_name) {
     document.querySelector("div.user_holder").append(makeVideoElement(element_id, display_name));
-
+    document.getElementById("div_" + element_id).style.visibility = selected ? 'hidden' : 'visible';
 
     function makeVideoElement(element_id, display_name) {
         let wrapper_div = document.createElement("div");
@@ -140,27 +137,25 @@ function addVideoElement(element_id, display_name) {
         wrapper_div.appendChild(vid_wrapper);
         wrapper_div.appendChild(name_text);
         wrapper_div.addEventListener("click", () => {
-            user_holder = document.getElementsByClassName('user_holder')
-            let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2)
-            let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2)
-            selected = !selected
-            wrapper_div.style.transform = selected ? 'translate(' + translateX.toString() + 'px,' + translateY.toString() + 'px)scale(2)' : ''
+            user_holder = document.getElementsByClassName('user_holder');
+            let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2);
+            let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2);
+            selected = !selected;
+            wrapper_div.style.transform = selected ? `translate(${translateX.toString()}px,${translateY.toString()}px)scale(2)` : '';
             wrapper_div.style.transformOrigin = 'center center';
-            wrapper_div.style.transitionDuration = '200ms'
-            document.getElementById("grid-container").style.overflow = 'hidden'
-            for (let i = 0; i < element_ids.length; i++) {
-                let change_id = "div_" + element_ids[i]
+            wrapper_div.style.transitionDuration = '200ms';
+            document.getElementById("grid-container").style.overflow = selected ? 'hidden' : 'scroll';
+            for (const [key, value] of Object.entries(_peer_list)) {
+                let change_id = "div_" + key
                 if (change_id !== wrapper_div.id) {
-                    document.getElementById("div_" + element_ids[i]).style.visibility = selected ? 'hidden' : 'visible'
+                    document.getElementById(change_id).style.visibility = selected ? 'hidden' : 'visible';
                 }
-
             }
         })
-        wrapper_div.style.visibility = selected ? 'hidden' : 'visible'
-        element_ids.push(element_id)
         return wrapper_div;
     }
 }
+
 function removeVideoElement(element_id) {
     let v = getVideoObj(element_id);
     if (v.srcObject) {
@@ -168,8 +163,6 @@ function removeVideoElement(element_id) {
     }
     v.removeAttribute("srcObject");
     v.removeAttribute("src");
-    element_ids.pop(element_id)
-
     document.getElementById("div_" + element_id).remove();
 }
 
