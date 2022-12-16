@@ -1,50 +1,41 @@
-var myVideo;
-var share_enabled = false;
 var element_ids = []
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    let current_url = `${location.protocol}//${location.host}${location.pathname}`;
     new QRCode(document.getElementById("qrcode"), {
-        text: `${location.protocol}//${location.host}${location.pathname}`,
+        text: current_url,
         width: 128,
         height: 128,
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H
     });
-    document.getElementById("href").innerText = `${location.protocol}//${location.host}${location.pathname}`
-    document.getElementById("copyhref").addEventListener('click', () => {
-        navigator.clipboard.writeText(`${location.protocol}//${location.host}${location.pathname}`)
+    document.getElementById("qrcode_link").innerText = current_url;
+    document.getElementById("copy_qrcode_link").addEventListener('click', () => {
+        navigator.clipboard.writeText(current_url)
             .then(() => {
-                console.log("Text copied to clipboard...")
+                console.log("Url copied to clipboard...")
             })
-            .catch(err => {
-                console.log('Something went wrong', err);
-            })
+            .catch(logError)
     })
+
     document.getElementById("msg").addEventListener('focus', () => {
         document.addEventListener('keydown', detectKey)
     })
     document.getElementById("msg").addEventListener('focusout', () => {
         document.removeEventListener('keydown', detectKey)
     })
-    function detectKey(key) {
-        if (key.key === 'Enter') {
-            var chat_msg = document.getElementById("msg").value;
-            document.getElementById("msg").value = ''
-            socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
-        }
-    }
-    myVideo = document.querySelector("#videoElement");
-    var camera_image = document.querySelector("#camera_mute");
-    var mic_image = document.querySelector("#mic_mute");
-    var callEndBttn = document.querySelector("#call_end");
-    var chat_submit_btn = document.querySelector("#msgsend");
-    var share_image = document.querySelector("#share");
+
+    let camera_image = document.getElementById("camera_mute");
+    let mic_image = document.getElementById("mic_mute");
+    let callEndBttn = document.getElementById("call_end");
+    let chat_submit_btn = document.getElementById("msgsend");
+    let share_image = document.getElementById("share");
 
     camera_image.addEventListener('click', () => {
         if (!videoError) {
             camera_enabled = !camera_enabled;
-            camera_image.src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
+            camera_image.src = (camera_enabled) ? camera_on_path : camera_off_path;
             setVideoState(camera_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
         }
@@ -56,7 +47,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     mic_image.addEventListener('click', function () {
         if (!audioError) {
             mic_enabled = !mic_enabled;
-            mic_image.src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
+            mic_image.src = (mic_enabled) ? mic_on_path : mic_off_path;
             setAudioState(mic_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
         }
@@ -65,28 +56,29 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
+    let share_enabled = false;
     if (isMobileDevice()) {
         share_image.addEventListener('touchstart', () => {
             share_enabled = !share_enabled;
-            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            share_image.src = (share_enabled) ? share_on_path : share_off_path;
         });
 
         share_image.addEventListener('touchend', () => {
             share_enabled = !share_enabled;
-            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            share_image.src = (share_enabled) ? share_on_path : share_off_path;
             alert("This feature is currently unavailable on mobile devices!");
         });
-    } else {
+    }
+    else {
         share_image.addEventListener('mousedown', () => {
             share_enabled = !share_enabled;
-            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
+            share_image.src = (share_enabled) ? share_on_path : share_off_path;
         });
 
         share_image.addEventListener('mouseup', () => {
             share_enabled = !share_enabled;
-            share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
-            share_form = document.getElementById("share_screen_form");
-            share_form.submit();
+            share_image.src = (share_enabled) ? share_on_path : share_off_path;
+            document.getElementById("share_screen_form").submit();
         });
     }
 
@@ -94,58 +86,77 @@ document.addEventListener("DOMContentLoaded", (event) => {
         window.location.replace("/");
     });
 
-    chat_submit_btn.addEventListener('click', () => {
-        var chat_msg = document.getElementById("msg").value;
-        document.getElementById("msg").value = ''
-        socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
-    });
-});
+    chat_submit_btn.addEventListener("click", chatSubmit);
 
-
-function makeVideoElement(element_id, display_name) {
-    let wrapper_div = document.createElement("div");
-    let vid_wrapper = document.createElement("div");
-    let vid = document.createElement("video");
-    let name_text = document.createElement("div");
-    let selected = false
-
-    wrapper_div.id = "div_" + element_id;
-    vid.id = "vid_" + element_id;
-
-    wrapper_div.className = "video-item";
-    vid_wrapper.className = "vid-wrapper";
-    name_text.className = "display-name";
-    vid.className = "video"
-
-    vid.autoplay = true;
-    name_text.innerText = display_name;
-
-    vid_wrapper.appendChild(vid);
-    wrapper_div.appendChild(vid_wrapper);
-    wrapper_div.appendChild(name_text);
-    wrapper_div.addEventListener("click", () => {
-        user_holder = document.getElementsByClassName('user_holder')
-        let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2)
-        let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2)
-        selected = !selected
-        wrapper_div.style.transform = selected ? 'translate(' + translateX.toString() + 'px,' + translateY.toString() + 'px)scale(2)' : ''
-        wrapper_div.style.transformOrigin = 'center center';
-        wrapper_div.style.transitionDuration = '200ms'
-        for (let i = 0; i < element_ids.length; i++) {
-            let change_id = "div_" + element_ids[i]
-            if (change_id !== wrapper_div.id) {
-                document.getElementById("div_" + element_ids[i]).style.visibility = selected ? 'hidden' : 'visible'
-            }
-
+    function detectKey(key) {
+        if (key.key === 'Enter') {
+            chatSubmit();
         }
-        console.log('click')
-    })
+    }
 
-    return wrapper_div;
-}
+    function chatSubmit() {
+        let chat_msg = document.getElementById("msg").value;
+        document.getElementById("msg").value = '';
+        console.log(`chat msg send`)
+        socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
+    }
+
+    function isMobileDevice() {
+        let mobileDevices = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows Phone']
+        let isMobileDevice = false
+        mobileDevices.forEach((i) => {
+            if (navigator.userAgent.match(i)) {
+                isMobileDevice = true
+            }
+        });
+        console.log(`This device is mobile device: ${isMobileDevice}`)
+        return isMobileDevice
+    }
+});
 
 function addVideoElement(element_id, display_name) {
     document.querySelector("div.user_holder").append(makeVideoElement(element_id, display_name));
+
+    function makeVideoElement(element_id, display_name) {
+        let wrapper_div = document.createElement("div");
+        let vid_wrapper = document.createElement("div");
+        let vid = document.createElement("video");
+        let name_text = document.createElement("div");
+        let selected = false
+
+        wrapper_div.id = "div_" + element_id;
+        vid.id = "vid_" + element_id;
+
+        wrapper_div.className = "video-item";
+        vid_wrapper.className = "vid-wrapper";
+        name_text.className = "display-name";
+        vid.className = "video"
+
+        vid.autoplay = true;
+        name_text.innerText = display_name;
+
+        vid_wrapper.appendChild(vid);
+        wrapper_div.appendChild(vid_wrapper);
+        wrapper_div.appendChild(name_text);
+        wrapper_div.addEventListener("click", () => {
+            user_holder = document.getElementsByClassName('user_holder')
+            let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2)
+            let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2)
+            wrapper_div.style.transform = selected ? 'translate(' + translateX.toString() + 'px,' + translateY.toString() + 'px)scale(2)' : ''
+            wrapper_div.style.transformOrigin = 'center center';
+            wrapper_div.style.transitionDuration = '200ms'
+            for (let i = 0; i < element_ids.length; i++) {
+                let change_id = "div_" + element_ids[i]
+                if (change_id !== wrapper_div.id) {
+                    document.getElementById("div_" + element_ids[i]).style.visibility = selected ? 'hidden' : 'visible'
+                }
+
+            }
+            console.log('click')
+        })
+
+        return wrapper_div;
+    }
     element_ids.push(element_id)
 }
 function removeVideoElement(element_id) {
@@ -165,7 +176,7 @@ function getVideoObj(element_id) {
 }
 
 function setVideoState(flag) {
-    let stream = document.querySelector("#videoElement").srcObject;
+    let stream = document.getElementById("videoElement").srcObject;
     let track = stream.getVideoTracks();
     for (let i = 0; i < track.length; i++) {
         track[i].enabled = flag;
@@ -173,7 +184,7 @@ function setVideoState(flag) {
 }
 
 function setAudioState(flag) {
-    let stream = document.querySelector("#videoElement").srcObject;
+    let stream = document.getElementById("videoElement").srcObject;
     let track = stream.getAudioTracks();
     for (let i = 0; i < track.length; i++) {
         track[i].enabled = flag;
@@ -181,43 +192,32 @@ function setAudioState(flag) {
 }
 
 function setOtherUserVideoState(peer_id, flag) {//需要加上別的用戶關閉鏡頭時的動作
-    let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    let wrapper_div = document.getElementById("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
     console.log(peer_id + " camera state change to " + flag);
 }
 
 function setOtherUserAudioState(peer_id, flag) {//需要加上別的用戶關閉麥克風時的動作
-    let wrapper_div = document.querySelector("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    let wrapper_div = document.getElementById("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
     console.log(peer_id + " mic state change to " + flag);
 }
 
-function makeChatElement(sender, msg) {
-    let now = new Date();
-    let msg_div = document.createElement("div");
-    let msg_p = document.createElement("p");
+function addChatMsg(sender, msg) {
+    let chat_holder = document.querySelector("div.chat_holder");
+    chat_holder.append(makeChatElement(sender, msg));
+    chat_holder.scrollTop = chat_holder.scrollHeight
 
-    msg_div.className = "msg_div bar";
-    msg_p.className = "msg_p";
+    function makeChatElement(sender, msg) {
+        let now = new Date();
+        let msg_div = document.createElement("div");
+        let msg_p = document.createElement("p");
 
-    msg_p.innerText = sender + ' 在 ' + now.getHours() + ':' + now.getMinutes() + ' 時 說：\n' + msg;
+        msg_div.className = "msg_div bar";
+        msg_p.className = "msg_p";
 
-    msg_div.appendChild(msg_p);
+        msg_p.innerText = `${sender} 在 ${now.getHours()}:${now.getMinutes()} 時 說：\n${msg}`;
 
-    return msg_div;
-}
+        msg_div.appendChild(msg_p);
 
-function newChatMsg(sender, msg) {
-    document.querySelector("div.chat_holder").append(makeChatElement(sender, msg));
-    document.querySelector("div.chat_holder").scrollTop = document.querySelector("div.chat_holder").scrollHeight
-}
-
-function isMobileDevice() {
-    var mobileDevices = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows Phone']
-    var isMobileDevice = false
-    for (var i = 0; i < mobileDevices.length; i++) {
-        if (navigator.userAgent.match(mobileDevices[i])) {
-            isMobileDevice = true
-        }
+        return msg_div;
     }
-    console.log(isMobileDevice)
-    return isMobileDevice
 }

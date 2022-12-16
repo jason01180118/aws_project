@@ -19,23 +19,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <!-- QRcode library -->
     <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
-
+    <!-- self defind js -->
     <script type="text/javascript">
         var myRoomID = "{{room_id}}";
         var myName = "{{username}}";
         var mic_enabled = "{{audio_enabled}}" == "1";
         var camera_enabled = "{{video_enabled}}" == "1";
         var screen_share = "{{screen_share}}" == "1";
-
-        var audioError = false;
-        var videoError = false;
-        function log_error(e) { console.log(`"[ERROR] ${e.name}: ${e.message}`); }
-        // socketio 
-        var protocol = window.location.protocol;
-        var socket = io(protocol + '//' + document.domain + ':' + location.port, { autoConnect: false });
     </script>
+    <script src="{{ url_for('static', filename='videoroom_init.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_ui.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_mediaAccessing.js') }}"> </script>
     <script src="{{ url_for('static', filename='videoroom_networking.js') }}"> </script>
@@ -219,18 +213,18 @@
         </div>
         <div
             style="height: 30px;width:250px;background: #FFC645;border-radius: 10px;display: flex;justify-content: center;margin-top: 5px;">
-            <p id="href"
+            <p id="qrcode_link"
                 style="height: 30px;width:150px;overflow:scroll;font-size:24px;text-align:center;color:5C5C5C;font-family: Inter;font-style: normal;font-weight: 700;display: inline"
                 class="bar">
             </p>
         </div>
-        <img id="copyhref" src="../static/images/copy.png"
+        <img id="copy_qrcode_link" src="../static/images/copy.png"
             style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
     </div>
     <form id="share_screen_form" action="" method="POST" target="_blank">
-        <input type="hidden" value="1" name="audio_enabled" id="audio_enabled_inp">
-        <input type="hidden" value="1" name="video_enabled" id="video_enabled_inp">
-        <input type="hidden" value={{username}} name="username">
+        <input type="hidden" value="1" name="audio_enabled">
+        <input type="hidden" value="1" name="video_enabled">
+        <input type="hidden" value={{username}}的螢幕畫面 name="username">
         <input type="hidden" value="1" name="share_inp">
     </form>
 </body>
