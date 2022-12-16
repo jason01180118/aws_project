@@ -29,7 +29,9 @@ socket.on("user-list", (data) => {
         for (peer_id in recvd_list) {
             display_name = recvd_list[peer_id];
             _peer_list[peer_id] = undefined;
-            addVideoElement(peer_id, display_name);
+            if (!screen_share) {
+                addVideoElement(peer_id, display_name);
+            }
         }
         start_webrtc();
         socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
@@ -47,9 +49,9 @@ socket.on("state-change", (data) => {
     }
 });
 socket.on("chat-recv", (data) => {
-    newChatMsg(data["username"], data["msg"]);
+    console.log(`chat msg recieved`)
+    addChatMsg(data["username"], data["msg"]);
 });
-
 
 function closeConnection(peer_id) {
     if (peer_id in _peer_list) {
@@ -67,8 +69,7 @@ function log_user_list() {
     }
 }
 
-//---------------[ webrtc ]--------------------    
-
+//---------------[ webrtc ]--------------------
 var PC_CONFIG = {
     iceServers: [
         {
@@ -134,7 +135,6 @@ function createPeerConnection(peer_id) {
     _peer_list[peer_id].onnegotiationneeded = () => { handleNegotiationNeededEvent(peer_id) };
 }
 
-
 function handleNegotiationNeededEvent(peer_id) {
     _peer_list[peer_id].createOffer()
         .then((offer) => {
@@ -149,7 +149,7 @@ function handleNegotiationNeededEvent(peer_id) {
                 "sdp": _peer_list[peer_id].localDescription
             });
         })
-        .catch(log_error);
+        .catch(logError);
 }
 
 function handleOfferMsg(msg) {
@@ -175,7 +175,7 @@ function handleOfferMsg(msg) {
                 "sdp": _peer_list[peer_id].localDescription
             });
         })
-        .catch(log_error);
+        .catch(logError);
 }
 
 function handleAnswerMsg(msg) {
@@ -184,7 +184,6 @@ function handleAnswerMsg(msg) {
     let desc = new RTCSessionDescription(msg['sdp']);
     _peer_list[peer_id].setRemoteDescription(desc)
 }
-
 
 function handleICECandidateEvent(event, peer_id) {
     if (event.candidate) {
@@ -201,14 +200,13 @@ function handleNewICECandidateMsg(msg) {
     console.log(`ICE candidate recieved from <${peer_id}>`);
     var candidate = new RTCIceCandidate(msg.candidate);
     _peer_list[msg["sender_id"]].addIceCandidate(candidate)
-        .catch(log_error);
+        .catch(logError);
 }
-
 
 function handleTrackEvent(event, peer_id) {
     console.log(`track event recieved from <${peer_id}>`);
 
-    if (event.streams && screen_share == 0) {
+    if (event.streams && !screen_share) {
         getVideoObj(peer_id).srcObject = event.streams[0];
     }
 }
