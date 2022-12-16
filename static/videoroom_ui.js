@@ -1,5 +1,6 @@
 var myVideo;
 var share_enabled = false;
+var element_ids = []
 
 document.addEventListener("DOMContentLoaded", (event) => {
     new QRCode(document.getElementById("qrcode"), {
@@ -64,12 +65,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
-    if(isMobileDevice()) {
+    if (isMobileDevice()) {
         share_image.addEventListener('touchstart', () => {
             share_enabled = !share_enabled;
             share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
         });
-    
+
         share_image.addEventListener('touchend', () => {
             share_enabled = !share_enabled;
             share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             share_enabled = !share_enabled;
             share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
         });
-    
+
         share_image.addEventListener('mouseup', () => {
             share_enabled = !share_enabled;
             share_image.src = (share_enabled) ? "../../static/images/share-on.png" : "../../static/images/share-off.png";
@@ -106,6 +107,7 @@ function makeVideoElement(element_id, display_name) {
     let vid_wrapper = document.createElement("div");
     let vid = document.createElement("video");
     let name_text = document.createElement("div");
+    let selected = false
 
     wrapper_div.id = "div_" + element_id;
     vid.id = "vid_" + element_id;
@@ -121,12 +123,30 @@ function makeVideoElement(element_id, display_name) {
     vid_wrapper.appendChild(vid);
     wrapper_div.appendChild(vid_wrapper);
     wrapper_div.appendChild(name_text);
+    wrapper_div.addEventListener("click", () => {
+        user_holder = document.getElementsByClassName('user_holder')
+        let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2)
+        let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2)
+        selected = !selected
+        wrapper_div.style.transform = selected ? 'translate(' + translateX.toString() + 'px,' + translateY.toString() + 'px)scale(2)' : ''
+        wrapper_div.style.transformOrigin = 'center center';
+        wrapper_div.style.transitionDuration = '200ms'
+        for (let i = 0; i < element_ids.length; i++) {
+            let change_id = "div_" + element_ids[i]
+            if (change_id !== wrapper_div.id) {
+                document.getElementById("div_" + element_ids[i]).style.visibility = selected ? 'hidden' : 'visible'
+            }
+
+        }
+        console.log('click')
+    })
 
     return wrapper_div;
 }
 
 function addVideoElement(element_id, display_name) {
     document.querySelector("div.user_holder").append(makeVideoElement(element_id, display_name));
+    element_ids.push(element_id)
 }
 function removeVideoElement(element_id) {
     let v = getVideoObj(element_id);
@@ -135,6 +155,7 @@ function removeVideoElement(element_id) {
     }
     v.removeAttribute("srcObject");
     v.removeAttribute("src");
+    element_ids.pop(element_id)
 
     document.getElementById("div_" + element_id).remove();
 }
@@ -177,7 +198,7 @@ function makeChatElement(sender, msg) {
     msg_div.className = "msg_div bar";
     msg_p.className = "msg_p";
 
-    msg_p.innerText = sender + ' 在 '+ now.getHours() + ':' + now.getMinutes() + ' 時 說：\n' + msg;
+    msg_p.innerText = sender + ' 在 ' + now.getHours() + ':' + now.getMinutes() + ' 時 說：\n' + msg;
 
     msg_div.appendChild(msg_p);
 
