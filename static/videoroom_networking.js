@@ -1,6 +1,3 @@
-var myPeerID;
-var _peer_list = {};
-
 socket.on("connect", () => {
     console.log("socket connected....");
     socket.emit("join-room", { "room_id": myRoomID });

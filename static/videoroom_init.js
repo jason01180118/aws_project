@@ -7,7 +7,9 @@ var mic_on_path = "../../static/images/mic-on.png";
 var mic_off_path = "../../static/images/mic-off.png";
 var share_on_path = "../../static/images/share-on.png";
 var share_off_path = "../../static/images/share-off.png";
-
+var myPeerID;
+var _peer_list = {};
+var selected = false
 
 function logError(e) { console.log(`[ERROR] ${e.name}: ${e.message}`); }
 
