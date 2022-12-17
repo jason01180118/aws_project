@@ -83,7 +83,7 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            background-color: #373737;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             font-family: Inter;
             font-size: 16px;
@@ -158,7 +158,7 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            background-color: #373737;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             font-family: Inter;
             font-size: 16px;
@@ -193,7 +193,7 @@
 
         .others_mic_tag_div {
             position: absolute;
-            width:10%;
+            width: 10%;
             height: 10%;
             top: 2%;
             right: 2%;
@@ -251,26 +251,27 @@
                                     style="margin-left:5%;border:none;height:60%;width:75%;font-size: 2vmin;font-family:inter;color: #FFFFFF;font-weight: 400;background-color:#373737;"
                                     type="text" id="msg" name="msg" placeholder="Type somethings here" />
                             </div>
-                            <img id="msgsend" style="position:absolute;top:35.5%;right:16%;max-width:5%;max-height:5%"
-                                src="../static/images/send.png">
+                            <img id="msgsend"
+                                style="position:absolute;top:35.5%;right:16%;max-width:5%;max-height:5%;cursor: pointer;"
+                                draggable="false" src="../static/images/send.png">
                         </div>
-                        <div
-                            class="video_frame" style=" width:80%; height:30%; margin-top: 5%;">
+                        <div class="video_frame" style=" width:80%; height:30%; margin-top: 5%;">
                             <video autoplay="true" id="videoElement" muted
                                 style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
                             </video>
-                            <div id="video_mask" style="position: absolute; width:100%; height: 100%; background-color: #373737;display: flex; border-radius: 25px; justify-content: center;align-items: center; visibility: hidden;" >
-                                <img
-                                    style="max-height: 50%; max-width: 50%; width: auto;height: auto;"
-                                    src="../static/images/video_mask.png" />
+                            <div id="video_mask"
+                                style="position: absolute; width:100%; height: 100%; background-color: #373737;display: flex; border-radius: 25px; justify-content: center;align-items: center; visibility: hidden;">
+                                <img style="max-height: 50%; max-width: 50%; width: auto;height: auto;"
+                                    draggable="false" src="../static/images/video_mask.png" />
                             </div>
-                            <div id="mic_tag" style="position: absolute; width:10%; height: 10%; top: 2%; right: 2%; visibility: hidden;">
-                                <img
-                                    style="max-height: 100%; max-width: 100%; width: auto;height: auto;"
-                                    src="../static/images/mic-off.png" />
+                            <div id="mic_tag"
+                                style="position: absolute; width:10%; height: 10%; top: 2%; right: 2%; visibility: hidden;">
+                                <img style="max-height: 100%; max-width: 100%; width: auto;height: auto;"
+                                    draggable="false" src="../static/images/mic-off.png" />
                             </div>
                             <div class="name_tag">
-                                <div class="circle" style="width:15px; height:15px; background: #FFC645;margin: 1%;"></div>
+                                <div class="circle" style="width:15px; height:15px; background: #FFC645;margin: 1%;">
+                                </div>
                                 YOU
                             </div>
                         </div>
@@ -283,16 +284,16 @@
                             <div style="width:25%; height:80%;display: flex;align-items: center;">
                                 <img id="camera_mute"
                                     style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
-                                    src="../static/images/camera-on.png" />
+                                    draggable="false" src="../static/images/camera-on.png" />
                             </div>
                             <div style="width:25%; height:80%;display: flex;align-items: center;">
                                 <img id="share"
                                     style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
-                                    src="../static/images/share-off.png" />
+                                    draggable="false" src="../static/images/share-off.png" />
                             </div>
                             <div id="call_end" style="width:25%; height:80%;display: flex;align-items: center;">
                                 <img style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
-                                    src="../static/images/phone.png" />
+                                    draggable="false" src="../static/images/phone.png" />
                             </div>
                         </div>
                     </div>
@@ -321,8 +322,8 @@
                 class="bar">
             </p>
         </div>
-        <img id="copy_qrcode_link" src="../static/images/copy.png"
-            style="position:absolute;top:248px;right:30px;height: 20px;width:20px;" />
+        <img id="copy_qrcode_link" src="../static/images/copy.png" draggable="false"
+            style="position:absolute;top:248px;right:30px;height: 20px;width:20px;cursor: pointer;" />
     </div>
     <form id="share_screen_form" action="" method="POST" target="_blank">
         <input type="hidden" value="1" name="audio_enabled">
@@ -330,6 +331,44 @@
         <input type="hidden" value={{username}}的螢幕畫面 name="username">
         <input type="hidden" value="1" name="share_inp">
     </form>
+    <div id="leave_page"
+        style="position:fixed;top:0;left:0;height:100%;width:100%;background-color: rgba(255, 255, 255, 0.5);visibility:hidden">
+        <div
+            style="position:absolute;top:30%;left:30%;height:40%;width:40%;background-color: #000000;border-radius: 20px;">
+            <div style="width:100%; height:10%;display: flex;justify-content: center;">
+                <div style="width:90%; height:100%;display: flex;align-items: center;">
+                    <div class="circle" style="width:15px; height:15px; background: #F6BB75;"></div>
+                    <div class="circle" style="width:15px; height:15px; background:#F4F675;margin: 1%;"></div>
+                    <div class="circle" style="width:15px; height:15px; background: #75F6F6;"></div>
+                </div>
+            </div>
+            <div style="height:20%;border: 1px solid #000000;">
+                <p
+                    style="font-family:Inter;font-style: normal;font-weight: 900;font-size: 6vmin;text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);line-height: 58px;color: #FF6666;text-align: center;">
+                    ALERT</p>
+            </div>
+            <div style="height:30%;">
+                <p
+                    style="font-family: Inter;font-style: normal;font-weight: 900;font-size: 3vmin;line-height: 39px;text-align: center;color: #FFFFFF;">
+                    確定要離開 {{room_id}} 的聊天室嗎?<br>系統將自動回到初始介面</p>
+            </div>
+            <div
+                style="position:absolute;left:30%;height:30%;width:40%;display:flex;justify-content:space-between;align-items:center">
+                <button id="leave_cancel"
+                    style="height:60%;width:40%;border-color: #D9D9D9;background-color:rgba(255, 255, 255, 0);border-radius: 50px;cursor: pointer;">
+                    <p
+                        style="font-family: Inter;font-style: normal;font-weight: 900;font-size: 3vmin;line-height: 44px;text-align: center;color: #D9D9D9;">
+                        取消</p>
+                </button>
+                <button id="leave_sure"
+                    style="height:60%;width:40%;border-color: #FFC645;background-color:rgba(255, 255, 255, 0);border-radius: 50px;cursor: pointer;">
+                    <p
+                        style="font-family: Inter;font-style: normal;font-weight: 900;font-size: 3vmin;line-height: 44px;text-align: center;color: #FFC645;">
+                        確定</p>
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

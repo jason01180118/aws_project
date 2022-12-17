@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href='https://css.gg/arrow-right.css' rel='stylesheet'>
 
     <style>
         .circle {
@@ -32,7 +33,7 @@
             background-color: #000000;
             color: #FFC645;
             font-family: inter;
-            font-size: 16px;
+            font-size: 3vmin;
             text-align: center;
             font-weight: 700;
             flex-direction: row;
@@ -43,18 +44,56 @@
         .input_box:focus {
             outline: none !important;
             color: #FFC645;
+            font-size: 3vmin;
+        }
+
+        ::placeholder {
+            /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #FFC645;
+            opacity: 1;
+            font-size: 3vmin;
+            /* Firefox */
+        }
+
+        :-ms-input-placeholder {
+            /* Internet Explorer 10-11 */
+            color: #FFC645;
+            font-size: 3vmin;
+        }
+
+        ::-ms-input-placeholder {
+            /* Microsoft Edge */
+            color: #FFC645;
+            font-size: 3vmin;
+        }
+
+        .enter_button {
+            height: 100%;
+            width: 70%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: #000000;
+            color: #FFC645;
+            padding: 10px;
+            gap: 10px;
+            border: 1px solid #5C5C5C;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            border-radius: 50px;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 3vmin;
+            line-height: 29px;
+            cursor: pointer;
+        }
+
+        .enter_button:hover {
+            background: #FFC645;
+            color: #373737;
         }
     </style>
-
-    <script type="text/javascript">
-        $(function () {
-            $(".enter_room_button").hover(function () {
-                $(".enter_room_button").attr("src", "{{ url_for('static', filename='/images/enter_room_btn_hover.png') }}");
-            }, function () {
-                $(".enter_room_button").attr("src", "{{ url_for('static', filename='/images/enter_room_btn.png') }}");
-            });
-        });
-    </script>
 </head>
 
 <body style="height:100%;">
@@ -83,19 +122,20 @@
                 </div>
                 <div style="width:100%; height:84%;display: flex;justify-content: center;align-content: center;">
                     <form action="" method="POST">
-                        <p style="font-size: 36px; font-family:inter;color: white;text-align:center;font-weight: 900;">
-                            透過會議室名稱加入會議室</p>
-                        <div style="width:100%; height:10%;display: flex;justify-content: center;">
-                            <input style="font-size: 24px; width:60%; height:100%;" type="text" name="room" class="roomname input_box"
-                                placeholder="ROOM ID / NAME" autofocus required />
+                        <div style="height: 10%;width:100%">
+                            <p
+                                style="font-size: 4vmin; font-family:inter;color: white;text-align:center;font-weight: 900;">
+                                透過會議室名稱加入會議室</p>
+                        </div>
+
+                        <div style="width:100%; height:10%;display: flex;justify-content: center;margin-top: 12%;">
+                            <input style="font-size: 24px; width:60%; height:100%;" type="text" name="room"
+                                class="roomname input_box" placeholder="ROOM ID / NAME" autofocus required />
 
                         </div>
-                        <div style="width:100%; height:12%;display: flex;justify-content: center; margin-top: 10%;">
-                            <button
-                                style="width:60%; height:100%;border: 0;background-color: #000000;"
-                                type='submit'>
-                                <img src="{{ url_for('static', filename='/images/enter_room_btn.png') }}" alt="ENTER ROOM"
-                                class="enter_room_button" style="width:100%; height:100%; cursor: pointer;" />
+                        <div style="width:100%; height:13%;display: flex;justify-content: center; margin-top: 12%;">
+                            <button class="enter_button" type='submit'>
+                                ENTER ROOM<span class="gg-arrow-right"></span>
                             </button>
                         </div>
                     </form>
@@ -105,4 +145,5 @@
         </div>
     </div>
 </body>
+
 </html>

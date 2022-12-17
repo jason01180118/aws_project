@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let callEndBttn = document.getElementById("call_end");
     let chat_submit_btn = document.getElementById("msgsend");
     let share_image = document.getElementById("share");
+    let leaveCancel = document.getElementById("leave_cancel")
+    let leaveSure = document.getElementById("leave_sure")
 
     camera_image.addEventListener('click', () => {
         if (!videoError) {
@@ -91,9 +93,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     callEndBttn.addEventListener("click", (event) => {
-        let double_check = confirm(`確定要離開會議室 ${myRoomID} 嗎？\n系統將自動回到初始頁面`);
-        if (double_check) window.location.replace("/");
+        document.getElementById("leave_page").style.visibility = 'visible'
     });
+
+    leaveCancel.addEventListener('click', () => {
+        document.getElementById("leave_page").style.visibility = 'hidden'
+    })
+
+    leaveSure.addEventListener('click', () => {
+        window.location.replace("/");
+    })
 
     chat_submit_btn.addEventListener("click", chatSubmit);
 
@@ -169,7 +178,7 @@ function addVideoElement(element_id, display_name) {
             user_holder = document.getElementsByClassName('user_holder');
             let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2);
             let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2);
-            console.log(user_holder[0].offsetLeft + user_holder[0].clientWidth / 2,user_holder[0].offsetTop + user_holder[0].clientHeight / 2)
+            console.log(user_holder[0].offsetLeft + user_holder[0].clientWidth / 2, user_holder[0].offsetTop + user_holder[0].clientHeight / 2)
             selected = !selected;
             wrapper_div.style.transform = selected ? `translate(${translateX.toString()}px,${translateY.toString()}px)scale(2.2)` : '';
             vid_wrapper.style.marginTop = selected ? '3.3%' : '5%';
