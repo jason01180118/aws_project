@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!videoError) {
             camera_enabled = !camera_enabled;
             camera_image.src = (camera_enabled) ? camera_on_path : camera_off_path;
+            document.getElementById("video_mask").style.visibility = camera_enabled ? 'hidden' : 'visible';
             setVideoState(camera_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "C", "state": camera_enabled });
         }
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (!audioError) {
             mic_enabled = !mic_enabled;
             mic_image.src = (mic_enabled) ? mic_on_path : mic_off_path;
+            document.getElementById("mic_tag").style.visibility = mic_enabled ? 'hidden' : 'visible';
             setAudioState(mic_enabled);
             socket.emit("state-change", { "room": myRoomID, "sid": myPeerID, "CorM": "M", "state": mic_enabled });
         }
@@ -89,7 +91,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     callEndBttn.addEventListener("click", (event) => {
-        window.location.replace("/");
+        let double_check = confirm(`確定要離開會議室 ${myRoomID} 嗎？\n系統將自動回到初始頁面`);
+        if(double_check) window.location.replace("/");
     });
 
     chat_submit_btn.addEventListener("click", chatSubmit);
@@ -128,22 +131,40 @@ function addVideoElement(element_id, display_name) {
         let wrapper_div = document.createElement("div");
         let vid_wrapper = document.createElement("div");
         let vid = document.createElement("video");
+        let video_mask_div = document.createElement("div");
+        let video_mask_img = document.createElement("img");
+        let mic_tag_div = document.createElement("div");
+        let mic_tag_img = document.createElement("img");
         let name_text = document.createElement("div");
+        let name_circle = document.createElement("div");
 
         wrapper_div.id = "div_" + element_id;
         vid.id = "vid_" + element_id;
-
+        
         wrapper_div.className = "video-item";
         vid_wrapper.className = "vid-wrapper";
+        vid.className = "video";
+        video_mask_div.className = "others_video_mask_div";
+        video_mask_img.className = "others_video_mask_img";
+        mic_tag_div.className = "others_mic_tag_div";
+        mic_tag_img.className = "others_mic_tag_img";
         name_text.className = "display-name";
-        vid.className = "video"
+        name_circle.className = "display-name-circle";
+        video_mask_img.src = video_mask_path;
+        mic_tag_img.src = mic_off_path;
 
         vid.autoplay = true;
-        name_text.innerText = display_name;
 
+        name_text.innerText = display_name;
+        name_text.prepend(name_circle);
+
+        video_mask_div.appendChild(video_mask_img);
+        mic_tag_div.appendChild(mic_tag_img);
         vid_wrapper.appendChild(vid);
+        vid_wrapper.appendChild(video_mask_div);
+        vid_wrapper.appendChild(mic_tag_div);
+        vid_wrapper.appendChild(name_text);
         wrapper_div.appendChild(vid_wrapper);
-        wrapper_div.appendChild(name_text);
         wrapper_div.addEventListener("click", () => {
             user_holder = document.getElementsByClassName('user_holder');
             let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2);
@@ -157,6 +178,7 @@ function addVideoElement(element_id, display_name) {
                 let change_id = "div_" + key
                 if (change_id !== wrapper_div.id) {
                     document.getElementById(change_id).style.visibility = selected ? 'hidden' : 'visible';
+                    document.getElementById(change_id).children[0].style.display = selected ? 'none' : 'flex';
                 }
             }
         })
@@ -196,11 +218,13 @@ function setAudioState(flag) {
 
 function setOtherUserVideoState(peer_id, flag) {//需要加上別的用戶關閉鏡頭時的動作
     let wrapper_div = document.getElementById("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    wrapper_div.children[0].children[1].style.visibility = flag ? 'hidden' : 'visible';
     console.log(peer_id + " camera state change to " + flag);
 }
 
 function setOtherUserAudioState(peer_id, flag) {//需要加上別的用戶關閉麥克風時的動作
     let wrapper_div = document.getElementById("div_" + peer_id);//等同上面function makeVideoElement裡面的wrapper_div
+    wrapper_div.children[0].children[2].style.visibility = flag ? 'hidden' : 'visible';
     console.log(peer_id + " mic state change to " + flag);
 }
 

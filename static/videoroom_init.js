@@ -7,6 +7,7 @@ var mic_on_path = "../../static/images/mic-on.png";
 var mic_off_path = "../../static/images/mic-off.png";
 var share_on_path = "../../static/images/share-on.png";
 var share_off_path = "../../static/images/share-off.png";
+var video_mask_path = "../../static/images/video_mask.png";
 var myPeerID;
 var _peer_list = {};
 var selected = false

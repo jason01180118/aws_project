@@ -43,33 +43,17 @@
         .input_box:focus {
             outline: none !important;
             color: #FFC645;
-            ;
-        }
-
-        .roundUI {
-            border-width: 0;
-            padding: 0;
-            border-radius: 20px;
-            font-family: inter;
-            font-size: 16px;
-            text-align: center;
-            font-weight: 700;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
         }
     </style>
 
     <script type="text/javascript">
         $(function () {
             $(".enter_room_button").hover(function () {
-                $(".enter_room_button").css("background-color", "#FFFFFF");
-                $(".enter_room_button").css("color", "#FFC645");
+                $(".enter_room_button").attr("src", "{{ url_for('static', filename='/images/enter_room_btn_hover.png') }}");
             }, function () {
-                $(".enter_room_button").css("background-color", "#FFC645");
-                $(".enter_room_button").css("color", "#5C5C5C");
+                $(".enter_room_button").attr("src", "{{ url_for('static', filename='/images/enter_room_btn.png') }}");
             });
-        })
+        });
     </script>
 </head>
 
@@ -100,23 +84,20 @@
                 <div style="width:100%; height:84%;display: flex;justify-content: center;align-content: center;">
                     <form action="" method="POST">
                         <p style="font-size: 36px; font-family:inter;color: white;text-align:center;font-weight: 900;">
-                            透過房間名稱加入會議室</p>
+                            透過會議室名稱加入會議室</p>
                         <div style="width:100%; height:10%;display: flex;justify-content: center;">
-                            <input style="width:60%; height:100%;" type="text" name="room" class="roomname input_box"
+                            <input style="font-size: 24px; width:60%; height:100%;" type="text" name="room" class="roomname input_box"
                                 placeholder="ROOM ID / NAME" autofocus required />
 
                         </div>
-                        <div style="width:100%; height:10%;display: flex;justify-content: center; margin-top: 10%;">
-                            <button class="enter_room_button roundUI"
-                                style="width:55%; height:100%;background-color:#FFC645 ;color: #5C5C5C; cursor: pointer;"
+                        <div style="width:100%; height:12%;display: flex;justify-content: center; margin-top: 10%;">
+                            <button
+                                style="width:60%; height:100%;border: 0;background-color: #000000;"
                                 type='submit'>
-                                ENTER ROOM
-                                <img src="{{ url_for('static', filename='/images/arrow.svg') }}" alt="arrow_svg"
-                                    style="width: 16px" />
+                                <img src="{{ url_for('static', filename='/images/enter_room_btn.png') }}" alt="ENTER ROOM"
+                                class="enter_room_button" style="width:100%; height:100%; cursor: pointer;" />
                             </button>
-
                         </div>
-
                     </form>
                 </div>
             </div>
