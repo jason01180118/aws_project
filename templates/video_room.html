@@ -70,7 +70,7 @@
         .vid-wrapper {
             position: relative;
             margin: 10%;
-            background-color: #D9D9D9;
+            background-color: #373737;
             border: 1px solid #000000;
             border-radius: 25px;
             width: 80%;
@@ -79,13 +79,37 @@
 
         .display-name {
             position: absolute;
-            left: 11%;
-            bottom: 10%;
-            font-size: 20px;
-            color: black
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: #373737;
+            border-radius: 20px;
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            gap: 9px;
+            color: #FFFFFF;
+            left: 2%;
+            bottom: 1%;
+            white-space: nowrap;
+        }
+
+        .display-name-circle {
+            width: 15px;
+            height: 15px;
+            background-color: #FFC645;
+            margin: 1%;
+            -moz-border-radius: 50px;
+            -webkit-border-radius: 50px;
+            border-radius: 50px;
         }
 
         .video {
+            position: absolute;
             width: 100%;
             height: 100%;
         }
@@ -116,6 +140,71 @@
         .invite:hover,
         .invite:active {
             transform: translateY(-300px);
+        }
+
+        .video_frame {
+            position: relative;
+            background-color: #373737;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            border-radius: 25px;
+            padding: 1px;
+        }
+
+        .name_tag {
+            position: absolute;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: #373737;
+            border-radius: 20px;
+            font-family: Inter;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            gap: 9px;
+            color: #FFFFFF;
+            left: 2%;
+            bottom: 1%;
+        }
+
+        .others_video_mask_div {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #373737;
+            display: flex;
+            border-radius: 25px;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+        }
+
+        .others_video_mask_img {
+            max-height: 50%;
+            max-width: 50%;
+            width: auto;
+            height: auto;
+        }
+
+        .others_mic_tag_div {
+            position: absolute;
+            width:10%;
+            height: 10%;
+            top: 2%;
+            right: 2%;
+            visibility: hidden;
+        }
+
+        .others_mic_tag_img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
         }
     </style>
 </head>
@@ -166,11 +255,24 @@
                                 src="../static/images/send.png">
                         </div>
                         <div
-                            style=" width:80%; height:30%;background-color:#D9D9D9;margin-top: 5%;border-radius: 25px;">
+                            class="video_frame" style=" width:80%; height:30%; margin-top: 5%;">
                             <video autoplay="true" id="videoElement" muted
                                 style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
-
                             </video>
+                            <div id="video_mask" style="position: absolute; width:100%; height: 100%; background-color: #373737;display: flex; border-radius: 25px; justify-content: center;align-items: center; visibility: hidden;" >
+                                <img
+                                    style="max-height: 50%; max-width: 50%; width: auto;height: auto;"
+                                    src="../static/images/video_mask.png" />
+                            </div>
+                            <div id="mic_tag" style="position: absolute; width:10%; height: 10%; top: 2%; right: 2%; visibility: hidden;">
+                                <img
+                                    style="max-height: 100%; max-width: 100%; width: auto;height: auto;"
+                                    src="../static/images/mic-off.png" />
+                            </div>
+                            <div class="name_tag">
+                                <div class="circle" style="width:15px; height:15px; background: #FFC645;margin: 1%;"></div>
+                                YOU
+                            </div>
                         </div>
                         <div style="width:70%; height:10%;margin-top: 5%;display: flex;align-items: center;">
                             <div style="width:25%; height:80%;display: flex;align-items: center;">

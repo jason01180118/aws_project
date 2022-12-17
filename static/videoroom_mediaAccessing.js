@@ -80,7 +80,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             mic_enabled = false;
         }
         document.getElementById("camera_mute").src = (camera_enabled) ? camera_on_path : camera_off_path;
+        document.getElementById("video_mask").style.visibility = camera_enabled ? 'hidden' : 'visible';
         document.getElementById("mic_mute").src = (mic_enabled) ? mic_on_path : mic_off_path;
+        document.getElementById("mic_tag").style.visibility = mic_enabled ? 'hidden' : 'visible';
         setVideoState(camera_enabled);
         setAudioState(mic_enabled);
         socket.connect();

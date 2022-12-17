@@ -33,17 +33,12 @@
 
         .video_frame {
             position: relative;
-            background: #373737;
+            background-color: #373737;
             display: flex;
             justify-content: center;
             align-content: center;
             border-radius: 25px;
             padding: 1px;
-            background: #373737;
-        }
-
-        .video {
-            border-radius: 25px;
         }
 
         .name_tag {
@@ -52,7 +47,7 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            background: #373737;
+            background-color: #373737;
             border-radius: 20px;
             font-family: Inter;
             font-size: 16px;
@@ -62,21 +57,19 @@
             padding-right: 8px;
             gap: 9px;
             color: #FFFFFF;
-            left: 15px;
-            bottom: 10px;
+            left: 2%;
+            bottom: 1%;
         }
     </style>
 
     <script type="text/javascript">
         $(function () {
             $(".enter_room_button").hover(function () {
-                $(".enter_room_button").css("background-color", "#FFFFFF");
-                $(".enter_room_button").css("color", "#FFC645");
+                $(".enter_room_button").attr("src", "{{ url_for('static', filename='/images/enter_room_btn_hover.png') }}");
             }, function () {
-                $(".enter_room_button").css("background-color", "#FFC645");
-                $(".enter_room_button").css("color", "#5C5C5C");
+                $(".enter_room_button").attr("src", "{{ url_for('static', filename='/images/enter_room_btn.png') }}");
             });
-        })
+        });
     </script>
 </head>
 
@@ -109,8 +102,18 @@
                         <video autoplay="true" id="videoElement" muted
                             style="width:100%; height: 100%; display: flex;justify-content: center;align-content: center;border-radius: 25px;">
                         </video>
+                        <div id="video_mask" style="position: absolute; width:100%; height: 100%; background-color: #373737;display: flex; border-radius: 25px; justify-content: center;align-items: center; visibility: hidden;" >
+                            <img
+                                style="max-height: 50%; max-width: 50%; width: auto;height: auto;"
+                                src="../static/images/video_mask.png" />
+                        </div>
+                        <div id="mic_tag" style="position: absolute; width:10%; height: 10%; top: 1%; right: 0%; visibility: hidden;">
+                            <img
+                                style="max-height: 100%; max-width: 100%; width: auto;height: auto;"
+                                src="../static/images/mic-off.png" />
+                        </div>
                         <div class="name_tag">
-                            <div class="circle" style="width:15px; height:15px; background: #FFC645;margin: 1%;"></div>
+                            <div class="circle" style="width:15px; height:15px; background-color: #FFC645;margin: 1%;"></div>
                             YOU
                         </div>
                     </div>
@@ -126,7 +129,7 @@
                             <div style="width:100%; height:15%;display: flex;justify-content: center;margin-top: 10%;">
 
                                 <input
-                                    style="width:60%;height:80%;border-radius: 10px;font-size: 16px;font-family:inter;background-color:#D9D9D9;color: #5C5C5C;text-align:center;font-weight: 700;"
+                                    style="width:60%;height:80%;border-radius: 10px;font-size: 20px;font-family:inter;background-color:#D9D9D9;color: #5C5C5C;text-align:center;font-weight: 700;"
                                     type="text" name="username" class="username" placeholder="你的暱稱" autofocus
                                     required />
 
@@ -136,7 +139,7 @@
                             <div
                                 style="height:20%;display: flex;justify-content: center;align-items: center;margin-top:5%">
                                 <div
-                                    style="width:30%; height:80%;display: flex;flex-direction: column;align-items: center;">
+                                    style="width:35%; height:80%;display: flex;flex-direction: column;align-items: center;">
                                     <img id="mic_mute"
                                         style="max-height: 100%;  max-width: 100%; width: auto;height: auto;display: flex;cursor: pointer;"
                                         src="../static/images/mic-on.png" />
@@ -145,7 +148,7 @@
                                         麥克風</p>
                                 </div>
                                 <div
-                                    style="width:30%; height:80%;display: flex;flex-direction: column;align-items: center;">
+                                    style="width:35%; height:80%;display: flex;flex-direction: column;align-items: center;">
                                     <img id="camera_mute"
                                         style="max-height: 100%;  max-width: 100%; width: auto;height: auto;cursor: pointer;"
                                         src="../static/images/camera-on.png" />
@@ -154,11 +157,12 @@
                                         鏡頭 </p>
                                 </div>
                             </div>
-                            <div style="width:100%; height:20%;display: flex;justify-content: center;margin-top: 15%">
-                                <button class="enter_room_button"
-                                    style="width:60%; height:80%;border-radius: 10px;background-color:#FFC645 ;font-size: 2vmin;font-family:inter;color: #5C5C5C;text-align:center;font-weight: 700;cursor: pointer;"
+                            <div style="width:100%; height:12%;display: flex;justify-content: center; margin-top: 15%;">
+                                <button
+                                    style="width:70%; height:100%;border: 0;background-color: #000000;"
                                     type='submit'>
-                                    ENTER ROOM
+                                    <img src="{{ url_for('static', filename='/images/enter_room_btn.png') }}" alt="ENTER ROOM"
+                                    class="enter_room_button" style="width:100%; height:100%; cursor: pointer;" />
                                 </button>
                             </div>
                             <input type="hidden" value="1" name="audio_enabled" id="audio_enabled_inp">
