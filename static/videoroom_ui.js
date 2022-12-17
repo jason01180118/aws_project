@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     callEndBttn.addEventListener("click", (event) => {
         let double_check = confirm(`確定要離開會議室 ${myRoomID} 嗎？\n系統將自動回到初始頁面`);
-        if(double_check) window.location.replace("/");
+        if (double_check) window.location.replace("/");
     });
 
     chat_submit_btn.addEventListener("click", chatSubmit);
@@ -140,7 +140,7 @@ function addVideoElement(element_id, display_name) {
 
         wrapper_div.id = "div_" + element_id;
         vid.id = "vid_" + element_id;
-        
+
         wrapper_div.className = "video-item";
         vid_wrapper.className = "vid-wrapper";
         vid.className = "video";
@@ -169,8 +169,11 @@ function addVideoElement(element_id, display_name) {
             user_holder = document.getElementsByClassName('user_holder');
             let translateX = user_holder[0].offsetLeft + user_holder[0].clientWidth / 2 - (wrapper_div.getBoundingClientRect().left + wrapper_div.getBoundingClientRect().width / 2);
             let translateY = user_holder[0].offsetTop + user_holder[0].clientHeight / 2 - (wrapper_div.getBoundingClientRect().top + wrapper_div.getBoundingClientRect().height / 2);
+            console.log(user_holder[0].offsetLeft + user_holder[0].clientWidth / 2,user_holder[0].offsetTop + user_holder[0].clientHeight / 2)
             selected = !selected;
-            wrapper_div.style.transform = selected ? `translate(${translateX.toString()}px,${translateY.toString()}px)scale(2)` : '';
+            wrapper_div.style.transform = selected ? `translate(${translateX.toString()}px,${translateY.toString()}px)scale(2.2)` : '';
+            vid_wrapper.style.marginTop = selected ? '3.3%' : '5%';
+            vid_wrapper.style.marginBottom = selected ? '3.3%' : '5%';
             wrapper_div.style.transformOrigin = 'center center';
             wrapper_div.style.transitionDuration = '200ms';
             document.getElementById("grid-container").style.overflow = selected ? 'hidden' : 'scroll';
