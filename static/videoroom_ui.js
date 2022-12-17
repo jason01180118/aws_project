@@ -244,7 +244,7 @@ function addChatMsg(sender, msg) {
         msg_div.className = "msg_div bar";
         msg_p.className = "msg_p";
 
-        msg_p.innerText = `${sender} 在 ${now.getHours()}:${now.getMinutes()} 時 說：\n${msg}`;
+        msg_p.innerText = `${sender} 在 ${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")} 時 說：\n${msg}`;
 
         msg_div.appendChild(msg_p);
 
