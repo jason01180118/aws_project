@@ -37,8 +37,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let callEndBttn = document.getElementById("call_end");
     let chat_submit_btn = document.getElementById("msgsend");
     let share_image = document.getElementById("share");
-    let leaveCancel = document.getElementById("leave_cancel")
-    let leaveSure = document.getElementById("leave_sure")
+    let leaveCancel = document.getElementById("leave_cancel");
+    let leaveSure = document.getElementById("leave_sure");
+    let my_video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(0, 4)}.png`;
+
+    document.getElementById("video_mask").children[0].src = my_video_mask_path;
 
     camera_image.addEventListener('click', () => {
         if (!videoError) {
@@ -146,6 +149,7 @@ function addVideoElement(element_id, display_name) {
         let mic_tag_img = document.createElement("img");
         let name_text = document.createElement("div");
         let name_circle = document.createElement("div");
+        let video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(0, 4)}.png`;
 
         wrapper_div.id = "div_" + element_id;
         vid.id = "vid_" + element_id;
