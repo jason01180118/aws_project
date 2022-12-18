@@ -7,10 +7,15 @@ var mic_on_path = "../../static/images/mic-on.png";
 var mic_off_path = "../../static/images/mic-off.png";
 var share_on_path = "../../static/images/share-on.png";
 var share_off_path = "../../static/images/share-off.png";
-var video_mask_path = "../../static/images/video_mask.png";
 var myPeerID;
 var _peer_list = {};
-var selected = false
+var selected = false;
+
+function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 function logError(e) { console.log(`[ERROR] ${e.name}: ${e.message}`); }
 
