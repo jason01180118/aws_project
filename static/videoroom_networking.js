@@ -116,15 +116,15 @@ function invite(peer_id) {
 
         let local_stream = myVideo.srcObject;
         console.log(`sending track to <${peer_id}>`)
-        if (local_stream.getTracks().length == 0) {
+        if (local_stream.getAudioTracks().length == 0) {
             _peer_list[peer_id].addTransceiver("audio", { streams: [local_stream] });
+        }
+        if (local_stream.getVideoTracks().length == 0) {
             _peer_list[peer_id].addTransceiver("video", { streams: [local_stream] });
         }
-        else {
-            local_stream.getTracks().forEach((track) => {
-                _peer_list[peer_id].addTrack(track, local_stream);
-            });
-        }
+        local_stream.getTracks().forEach((track) => {
+            _peer_list[peer_id].addTrack(track, local_stream);
+        });
     }
 }
 
