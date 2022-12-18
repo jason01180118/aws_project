@@ -102,6 +102,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     startCamera();
 
+    let input_box = document.getElementsByClassName("input_box")[0];
+    input_box.addEventListener("input", () => {
+        if(input_box.validity.patternMismatch) {
+            input_box.setCustomValidity("輸入只能是中文、英文或數字");
+        } else {
+            input_box.setCustomValidity("");
+        }
+    });
+
     camera_image.addEventListener('click', () => {
         if (!videoError) {
             camera_enabled = !camera_enabled;
