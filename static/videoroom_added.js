@@ -4,12 +4,6 @@ var videoError = false;
 var mic_enabled = true;
 var camera_enabled = true;
 
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 function startCamera() {
     var mediaConstraints = {
         audio: true,
@@ -70,6 +64,8 @@ function startCamera() {
                 document.querySelector("#camera_mute").src = "../../static/images/camera-off.png";
                 document.getElementById("video_enabled_inp").value = false;
             }
+            document.getElementById("video_mask").style.visibility = camera_enabled ? 'hidden' : 'visible';
+            document.getElementById("mic_tag").style.visibility = mic_enabled ? 'hidden' : 'visible';
         });
     return Promise.allSettled([promiseMedia]);
 }
@@ -96,9 +92,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     var videoEnabledField = document.getElementById("video_enabled_inp");
     var camera_image = document.querySelector("#camera_mute");
     var mic_image = document.querySelector("#mic_mute");
-    var my_video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(0, 4)}.png`;
-
-    document.getElementById("video_mask").children[0].src = my_video_mask_path;
 
     startCamera();
 
