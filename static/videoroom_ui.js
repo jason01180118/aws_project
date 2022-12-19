@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function chatSubmit() {
         let chat_msg = document.getElementById("msg").value;
         document.getElementById("msg").value = '';
-        if(!(/^\s*$/).test(chat_msg)) {
+        if (!(/^\s*$/).test(chat_msg)) {
             console.log(`chat msg send`)
             socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
         }
@@ -144,8 +144,10 @@ function addVideoElement(element_id, display_name) {
         let vid = document.createElement("video");
         let video_mask_div = document.createElement("div");
         let video_mask_img = document.createElement("img");
+        video_mask_img.setAttribute('draggable', "false");
         let mic_tag_div = document.createElement("div");
         let mic_tag_img = document.createElement("img");
+        mic_tag_img.setAttribute('draggable', "false");
         let name_text = document.createElement("div");
         let name_circle = document.createElement("div");
         let video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(1, 4)}.png`;
