@@ -115,8 +115,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function chatSubmit() {
         let chat_msg = document.getElementById("msg").value;
         document.getElementById("msg").value = '';
-        console.log(`chat msg send`)
-        socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
+        if(!(/^\s*$/).test(chat_msg)) {
+            console.log(`chat msg send`)
+            socket.emit("chat-send", { "room": myRoomID, "username": myName, "msg": chat_msg });
+        }
     }
 
     function isMobileDevice() {
