@@ -25,9 +25,9 @@ python application.py
 在框框內填入http://flasktutorial-env-1.eba-ypmnuwvp.us-east-1.elasticbeanstalk.com/
 然後旁邊Disabled改成Enabled
 然後relaunch(chrome的那個relaunch按鈕有可能沒用，要手動重開chrome)
+```
 重開完之後確認框框內有網址前置設定就完成囉
 可以點網址前往試用：http://flasktutorial-env-1.eba-ypmnuwvp.us-east-1.elasticbeanstalk.com/
-```
 # elastic beanstalk設定
 
 ```
