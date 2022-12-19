@@ -56,14 +56,14 @@ function startCamera() {
         .then(() => {
             if (audioError) {
                 mic_enabled = false;
-                document.querySelector("#mic_mute").src = "../../static/images/mic-off.png";
                 document.getElementById("audio_enabled_inp").value = false;
             }
             if (videoError) {
                 camera_enabled = false;
-                document.querySelector("#camera_mute").src = "../../static/images/camera-off.png";
                 document.getElementById("video_enabled_inp").value = false;
             }
+            document.getElementById("camera_mute").src = camera_enabled ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
+            document.getElementById("mic_mute").src = mic_enabled ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             document.getElementById("video_mask").style.visibility = camera_enabled ? 'hidden' : 'visible';
             document.getElementById("mic_tag").style.visibility = mic_enabled ? 'hidden' : 'visible';
         });
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             camera_enabled = !camera_enabled;
             camera_image.src = (camera_enabled) ? "../../static/images/camera-on.png" : "../../static/images/camera-off.png";
             document.getElementById("video_mask").style.visibility = camera_enabled ? 'hidden' : 'visible';
-            videoEnabledField.value = (camera_enabled) ? "1" : "0";
+            videoEnabledField.value = camera_enabled ? "1" : "0";
             setVideoState(camera_enabled);
         }
         else {
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             mic_enabled = !mic_enabled;
             mic_image.src = (mic_enabled) ? "../../static/images/mic-on.png" : "../../static/images/mic-off.png";
             document.getElementById("mic_tag").style.visibility = mic_enabled ? 'hidden' : 'visible';
-            audioEnabledField.value = (mic_enabled) ? "1" : "0";
+            audioEnabledField.value = mic_enabled ? "1" : "0";
             setAudioState(mic_enabled);
         }
         else {

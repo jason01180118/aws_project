@@ -146,7 +146,7 @@ function addVideoElement(element_id, display_name) {
         let mic_tag_img = document.createElement("img");
         let name_text = document.createElement("div");
         let name_circle = document.createElement("div");
-        let video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(0, 4)}.png`;
+        let video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(1, 4)}.png`;
 
         wrapper_div.id = "div_" + element_id;
         vid.id = "vid_" + element_id;
