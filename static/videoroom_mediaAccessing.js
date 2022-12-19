@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function startScreenCapture() {
-        const promiseMedia = navigator.mediaDevices.getDisplayMedia({ audio: true, video: true })
+        const promiseMedia = navigator.mediaDevices.getDisplayMedia({ audio: true, video: { height: 480 } })
             .then(setStream)
             .catch((e) => {
                 if (e.name == "NotReadableError") {
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             audioError = true;
                             logError(e);
                         });
-                    const promiseVideo = navigator.mediaDevices.getDisplayMedia({ video: true })
+                    const promiseVideo = navigator.mediaDevices.getDisplayMedia({ video: { height: 480 } })
                         .then(setStream)
                         .catch((e) => {
                             videoError = true;
