@@ -39,9 +39,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let share_image = document.getElementById("share");
     let leaveCancel = document.getElementById("leave_cancel");
     let leaveSure = document.getElementById("leave_sure");
-    let my_video_mask_path = `../../static/images/video_mask${getRandomIntInclusive(0, 4)}.png`;
-
-    document.getElementById("video_mask").children[0].src = my_video_mask_path;
 
     camera_image.addEventListener('click', () => {
         if (!videoError) {
