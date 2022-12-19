@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-    let mediaConstraints = { audio: true, video: { height: 360 } };
-    let videoConstraints = { video: { height: 360 } };
-    let audioConstraints = { audio: true };
-
     if (screen_share) {
         startScreenCapture()
             .then(mediaInit);
@@ -13,17 +9,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function startCamera() {
-        const promiseMedia = navigator.mediaDevices.getUserMedia(mediaConstraints)
+        const promiseMedia = navigator.mediaDevices.getUserMedia({ audio: true, video: { height: 360 } })
             .then(setStream)
             .catch((e) => {
                 if (e.name == "NotReadableError") {
-                    const promiseAudio = navigator.mediaDevices.getUserMedia(audioConstraints)
+                    const promiseAudio = navigator.mediaDevices.getUserMedia({ audio: true })
                         .then(setStream)
                         .catch((e) => {
                             audioError = true;
                             logError(e);
                         });
-                    const promiseVideo = navigator.mediaDevices.getUserMedia(videoConstraints)
+                    const promiseVideo = navigator.mediaDevices.getUserMedia({ video: { height: 360 } })
                         .then(setStream)
                         .catch((e) => {
                             videoError = true;
@@ -43,17 +39,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function startScreenCapture() {
-        const promiseMedia = navigator.mediaDevices.getDisplayMedia(mediaConstraints)
+        const promiseMedia = navigator.mediaDevices.getDisplayMedia({ audio: true, video: true })
             .then(setStream)
             .catch((e) => {
                 if (e.name == "NotReadableError") {
-                    const promiseAudio = navigator.mediaDevices.getDisplayMedia(audioConstraints)
+                    const promiseAudio = navigator.mediaDevices.getDisplayMedia({ audio: true })
                         .then(setStream)
                         .catch((e) => {
                             audioError = true;
                             logError(e);
                         });
-                    const promiseVideo = navigator.mediaDevices.getDisplayMedia(videoConstraints)
+                    const promiseVideo = navigator.mediaDevices.getDisplayMedia({ video: true })
                         .then(setStream)
                         .catch((e) => {
                             videoError = true;
